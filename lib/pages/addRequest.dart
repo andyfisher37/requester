@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class AddRequestPage extends StatefulWidget {
   const AddRequestPage({Key? key}) : super(key: key);
@@ -23,8 +24,8 @@ class _AddRequestPageState extends State<AddRequestPage> {
     return SafeArea(
         child: Scaffold(
       body: Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
+        height: Get.height,
+        width: Get.width,
         decoration: BoxDecoration(
             gradient: LinearGradient(colors: [
           Color(0xff1d1e26),

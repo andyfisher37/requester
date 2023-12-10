@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, avoid_print, sort_child_properties_last, unused_local_variable, annotate_overrides
 
 import 'dart:async';
+import 'package:get/get.dart';
 
 //import 'package:requester/pages/addTodo.dart';
 import 'package:requester/pages/homepage.dart';
@@ -35,7 +36,7 @@ class _MyAppState extends State<MyApp> {
 
   void checkLogin() async {
     String? token = await authClass.getToken();
-   
+
     if (token != null) {
       setState(() {
         currentPage = HomePage();
@@ -45,9 +46,10 @@ class _MyAppState extends State<MyApp> {
 
   Widget build(BuildContext context) {
     //Firebase.initializeApp();
-    return MaterialApp(
+    return GetMaterialApp(
       home: HomePage(),
       debugShowCheckedModeBanner: false,
+      locale: Locale('ru', 'RU'),
     );
   }
 }

@@ -1,5 +1,6 @@
 // ignore_for_file: file_names, prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last
 
+import 'package:date_time_format/date_time_format.dart';
 import 'package:flutter/material.dart';
 
 class Request extends StatelessWidget {
@@ -47,7 +48,7 @@ class Request extends StatelessWidget {
                 activeColor: Color(0xff6cf8a9),
                 checkColor: Color(0xff0e3e26),
                 value: isExecute,
-                onChanged: (bool? value) {},
+                onChanged: (_) {},
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5),
                 ),
@@ -93,7 +94,7 @@ class Request extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      paydate.toIso8601String(),
+                      paydate.format('dd-mm-yyyy'),
                       style: TextStyle(
                           fontSize: 15,
                           color: Colors.white,

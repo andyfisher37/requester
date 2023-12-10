@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ViewReqDataPage extends StatefulWidget {
   const ViewReqDataPage({Key? key, required this.document, required this.id})
@@ -52,8 +53,8 @@ class _ViewReqDataPageState extends State<ViewReqDataPage> {
     return SafeArea(
         child: Scaffold(
       body: Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
+        height: Get.height,
+        width: Get.width,
         decoration: BoxDecoration(
             gradient: LinearGradient(colors: [
           Color(0xff1d1e26),
@@ -293,7 +294,7 @@ class _ViewReqDataPageState extends State<ViewReqDataPage> {
             ),
           ),
           height: 55,
-          width: MediaQuery.of(context).size.width,
+          width: Get.width,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
             gradient: LinearGradient(colors: [
