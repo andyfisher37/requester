@@ -1,10 +1,30 @@
 {
   "project_info": {
     "project_number": "498583036594",
+    "firebase_url": "https://request-and-execution-default-rtdb.asia-southeast1.firebasedatabase.app",
     "project_id": "request-and-execution",
     "storage_bucket": "request-and-execution.appspot.com"
   },
   "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:498583036594:android:5ac207784fd916a3d6dfab",
+        "android_client_info": {
+          "package_name": "com.codsoft.to_do_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnAesV626L0A5aRGFvNZnP2tnEQOBWdjE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
     {
       "client_info": {
         "mobilesdk_app_id": "1:498583036594:android:db80d707e1f4875fd6dfab",

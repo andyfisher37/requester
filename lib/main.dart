@@ -4,7 +4,7 @@ import 'dart:async';
 import 'package:get/get.dart';
 
 //import 'package:requester/pages/addTodo.dart';
-import 'package:requester/pages/homepage.dart';
+import 'package:requester/screens/homepage.dart';
 import 'package:requester/pages/signup.dart';
 import 'package:requester/pages/splash/splash_screen.dart';
 import 'package:requester/service/google_auth.dart';
@@ -49,7 +49,6 @@ class _MyAppState extends State<MyApp> {
     return GetMaterialApp(
       home: HomePage(),
       debugShowCheckedModeBanner: false,
-      locale: Locale('ru', 'RU'),
     );
   }
 }

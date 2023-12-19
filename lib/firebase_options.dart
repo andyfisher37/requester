@@ -57,6 +57,7 @@ class DefaultFirebaseOptions {
     appId: '1:498583036594:android:db80d707e1f4875fd6dfab',
     messagingSenderId: '498583036594',
     projectId: 'request-and-execution',
+    databaseURL: 'https://request-and-execution-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'request-and-execution.appspot.com',
   );
 }

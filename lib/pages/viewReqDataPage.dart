@@ -1,61 +1,60 @@
-// ignore_for_file: file_names, sized_box_for_whitespace, prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last, unused_local_variable, prefer_if_null_operators
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:requester/controllers/request_controller.dart';
+import 'package:requester/models/request.dart';
 
-class ViewReqDataPage extends StatefulWidget {
-  const ViewReqDataPage({Key? key, required this.document, required this.id})
-      : super(key: key);
-  final Map<String, dynamic> document;
-  final String id;
-  @override
-  State<ViewReqDataPage> createState() => _ViewReqDataPageState();
-}
+class ViewReqDataPage extends StatelessWidget {
+  final RequestController controller = Get.find();
+  //final Map<String, dynamic> document;
+  final int index;
 
-class _ViewReqDataPageState extends State<ViewReqDataPage> {
-  late TextEditingController _titleController;
-  late TextEditingController _descriptionController;
-  late TextEditingController _summaController;
+  ViewReqDataPage({super.key, required this.index});
+
+//   @override
+//   State<ViewReqDataPage> createState() => _ViewReqDataPageState();
+// }
+
+// class _ViewReqDataPageState extends State<ViewReqDataPage> {
+// late TextEditingController _titleController;
+//  late TextEditingController _descriptionController;
+//  late TextEditingController _summaController;
   String type = "";
   String category = "";
   bool edit = false;
 
-  @override
-  void initState() {
-    super.initState();
+  // @override
+  // void initState() {
+  //   super.initState();
 
-    String title = widget.document["title"] == null
-        ? "Title is Empty"
-        : widget.document["title"];
-    _titleController = TextEditingController(text: widget.document["title"]);
-
-    String description = widget.document["description"] == null
-        ? "Description is Empty"
-        : widget.document["description"];
-    _descriptionController =
-        TextEditingController(text: widget.document["description"]);
-
-    double summa = widget.document["summa"] == null
-        ? 0.0
-        : double.parse(widget.document["summa"].toString());
-    _summaController =
-        TextEditingController(text: widget.document["summa"].toString());
-
-    category = widget.document["category"];
-
-    type = widget.document["type"];
-  }
+  //}
 
   @override
   Widget build(BuildContext context) {
+    final req = controller.requestList[index];
+
+    String title = req.title == null ? "Title is Empty" : req.title;
+    TextEditingController _titleController =
+        TextEditingController(text: req.title);
+
+    String description =
+        req.description == null ? "Description is Empty" : req.description;
+    TextEditingController _descriptionController = TextEditingController(text: req.description);
+
+    double summa = req.summa == null ? 0.0 : double.parse(req.summa.toString());
+    TextEditingController _summaController = TextEditingController(text: req.summa.toString());
+
+    category = req.category;
+
+    type = req.type;
+
     return SafeArea(
         child: Scaffold(
       body: Container(
         height: Get.height,
         width: Get.width,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             gradient: LinearGradient(colors: [
           Color(0xff1d1e26),
           Color(0xff252041),
@@ -69,9 +68,9 @@ class _ViewReqDataPageState extends State<ViewReqDataPage> {
                 children: [
                   IconButton(
                     onPressed: () {
-                      Navigator.pop(context);
+                      Get.back();
                     },
-                    icon: Icon(
+                    icon: const Icon(
                       CupertinoIcons.arrow_left,
                       color: Colors.white,
                       size: 28,
@@ -81,9 +80,9 @@ class _ViewReqDataPageState extends State<ViewReqDataPage> {
                     children: [
                       IconButton(
                         onPressed: () {
-                          setState(() {
-                            edit = !edit;
-                          });
+                          // setState(() {
+                          //   edit = !edit;
+                          // });
                         },
                         icon: Icon(
                           CupertinoIcons.pen,
@@ -95,12 +94,11 @@ class _ViewReqDataPageState extends State<ViewReqDataPage> {
                         onPressed: () {
                           FirebaseFirestore.instance
                               .collection("Request")
-                              .doc(widget.id)
+                              .doc(req.id)
                               .delete()
-                              .then((value) => Navigator.pop(context));
-                          ;
+                              .then((value) => Get.back());
                         },
-                        icon: Icon(
+                        icon: const Icon(
                           CupertinoIcons.trash,
                           color: Colors.white,
                           size: 28,
@@ -118,13 +116,13 @@ class _ViewReqDataPageState extends State<ViewReqDataPage> {
                   children: [
                     Text(
                       edit ? "Editing" : "View",
-                      style: TextStyle(
+                      style: const TextStyle(
                           letterSpacing: 3,
                           color: Colors.white,
                           fontSize: 27,
                           fontWeight: FontWeight.bold),
                     ),
-                    Text(
+                    const Text(
                       "Request",
                       style: TextStyle(
                           color: Colors.white,
@@ -132,81 +130,185 @@ class _ViewReqDataPageState extends State<ViewReqDataPage> {
                           fontWeight: FontWeight.bold,
                           letterSpacing: 2),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     label("Task Title"),
-                    SizedBox(
+                    const SizedBox(
                       height: 12,
                     ),
-                    title(),
-                    SizedBox(
+                    Container(
+                      height: 40,
+                      width: Get.size.width,
+                      decoration: BoxDecoration(
+                        color: const Color(0xff2a2e3d),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: TextFormField(
+                        enabled: edit ? true : false,
+                        controller: _titleController,
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 14),
+                        decoration: const InputDecoration(
+                            hintText: "Task Title",
+                            border: InputBorder.none,
+                            hintStyle:
+                                TextStyle(color: Colors.grey, fontSize: 14),
+                            contentPadding: EdgeInsets.only(
+                                left: 20, right: 20, bottom: 5)),
+                      ),
+                    ),
+                    const SizedBox(
                       height: 10,
                     ),
                     label("Task Type"),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Row(
                       children: [
                         taskSelect("Important", 0xff2664fa),
-                        SizedBox(
+                        const SizedBox(
                           width: 15,
                         ),
                         taskSelect("Planned", 0xff2bc8d9),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     label("Description"),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
-                    description(),
-                    SizedBox(
+                    Container(
+                      height: 120,
+                      width: Get.size.width,
+                      decoration: BoxDecoration(
+                        color: const Color(0xff2a2e3d),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: TextFormField(
+                        enabled: edit ? true : false,
+                        controller: _descriptionController,
+                        maxLines: null,
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 14),
+                        decoration: const InputDecoration(
+                            hintText: "Description",
+                            border: InputBorder.none,
+                            hintStyle:
+                                TextStyle(color: Colors.grey, fontSize: 14),
+                            contentPadding:
+                                EdgeInsets.only(left: 20, right: 20, top: 8)),
+                      ),
+                    ),
+                    const SizedBox(
                       height: 10,
                     ),
-                    summa(),
-                    SizedBox(
+                    Container(
+                      height: 60,
+                      width: Get.size.width,
+                      decoration: BoxDecoration(
+                        color: const Color(0xff2a2e3d),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: TextField(
+                        keyboardType: TextInputType.number,
+                        controller: _summaController,
+                        maxLines: null,
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 14),
+                        decoration: const InputDecoration(
+                            hintText: "Сумма заявки",
+                            border: InputBorder.none,
+                            hintStyle:
+                                TextStyle(color: Colors.grey, fontSize: 14),
+                            contentPadding:
+                                EdgeInsets.only(left: 20, right: 20, top: 8)),
+                      ),
+                    ),
+                    const SizedBox(
                       height: 15,
                     ),
                     label("Category"),
-                    SizedBox(
+                    const SizedBox(
                       height: 5,
                     ),
                     Wrap(
                       children: [
                         categorySelect("Errands", 0xffff6d6e),
-                        SizedBox(
+                        const SizedBox(
                           width: 15,
                         ),
                         categorySelect("Housework", 0xfff29732),
-                        SizedBox(
+                        const SizedBox(
                           width: 15,
                         ),
                         categorySelect("Grocery", 0xff6557ff),
-                        SizedBox(
+                        const SizedBox(
                           width: 15,
                         ),
                         categorySelect("GYM", 0xff2bc8d9),
-                        SizedBox(
+                        const SizedBox(
                           width: 15,
                         ),
                         categorySelect("Work", 0xff663300),
-                        SizedBox(
+                        const SizedBox(
                           width: 15,
                         ),
                         categorySelect("School", 0xff009900),
-                        SizedBox(
+                        const SizedBox(
                           width: 15,
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
-                    edit ? createButton() : Container(),
+                    edit
+                        ? InkWell(
+                            onTap: () {
+                              FirebaseFirestore.instance
+                                  .collection("Request")
+                                  .doc(controller.requestList[index].id)
+                                  .update({
+                                'title': _titleController.text,
+                                'category': category,
+                                'isExecute': false,
+                                'description': _descriptionController.text,
+                                'type': type,
+                                'summa': double.parse(_summaController.text),
+                                'stavka': 1.0,
+                                'inn': 137000023,
+                                'isNDS': false,
+                                'paydate': DateTime.now(),
+                                'returndate': DateTime.now(),
+                              });
+                              Get.back();
+                            },
+                            child: Container(
+                                height: 55,
+                                width: Get.width,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  gradient: const LinearGradient(colors: [
+                                    Color(0xffff9999),
+                                    Color(0xffff5050),
+                                    Color(0xffff4500),
+                                  ]),
+                                ),
+                                child: const Center(
+                                  child: Text(
+                                    'Обновить заявку',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 15),
+                                  ),
+                                )),
+                          )
+                        : Container(),
                   ],
                 ),
               )
@@ -221,9 +323,9 @@ class _ViewReqDataPageState extends State<ViewReqDataPage> {
     return InkWell(
       onTap: edit
           ? () {
-              setState(() {
-                type = label;
-              });
+              // setState(() {
+              //   type = label;
+              // });
             }
           : null,
       child: Chip(
@@ -236,7 +338,7 @@ class _ViewReqDataPageState extends State<ViewReqDataPage> {
               fontSize: 13,
               fontWeight: FontWeight.bold),
         ),
-        labelPadding: EdgeInsets.symmetric(vertical: 3.8, horizontal: 13),
+        labelPadding: const EdgeInsets.symmetric(vertical: 3.8, horizontal: 13),
       ),
     );
   }
@@ -245,9 +347,9 @@ class _ViewReqDataPageState extends State<ViewReqDataPage> {
     return InkWell(
       onTap: edit
           ? () {
-              setState(() {
-                category = label;
-              });
+              // setState(() {
+              //   category = label;
+              // });
             }
           : null,
       child: Chip(
@@ -260,15 +362,18 @@ class _ViewReqDataPageState extends State<ViewReqDataPage> {
               fontSize: 13,
               fontWeight: FontWeight.bold),
         ),
-        labelPadding: EdgeInsets.symmetric(vertical: 3.8, horizontal: 13),
+        labelPadding: const EdgeInsets.symmetric(vertical: 3.8, horizontal: 13),
       ),
     );
   }
 
-  Widget createButton() {
+  /* Widget createButton() {
     return InkWell(
       onTap: () {
-        FirebaseFirestore.instance.collection("Request").doc(widget.id).update({
+        FirebaseFirestore.instance
+            .collection("Request")
+            .doc(controller.requestList[index].id)
+            .update({
           'title': _titleController.text,
           'category': category,
           'isExecute': false,
@@ -281,10 +386,20 @@ class _ViewReqDataPageState extends State<ViewReqDataPage> {
           'paydate': DateTime.now(),
           'returndate': DateTime.now(),
         });
-        Navigator.pop(context);
+        Get.back();
       },
       child: Container(
-          child: Center(
+          height: 55,
+          width: Get.width,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            gradient: const LinearGradient(colors: [
+              Color(0xffff9999),
+              Color(0xffff5050),
+              Color(0xffff4500),
+            ]),
+          ),
+          child: const Center(
             child: Text(
               'Обновить заявку',
               style: TextStyle(
@@ -292,89 +407,79 @@ class _ViewReqDataPageState extends State<ViewReqDataPage> {
                   fontWeight: FontWeight.w500,
                   fontSize: 15),
             ),
-          ),
-          height: 55,
-          width: Get.width,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            gradient: LinearGradient(colors: [
-              Color(0xffff9999),
-              Color(0xffff5050),
-              Color(0xffff4500),
-            ]),
           )),
     );
-  }
+  } */
 
-  Widget description() {
+/*   Widget description() {
     return Container(
       height: 120,
-      width: MediaQuery.of(context).size.width,
+      width: Get.size.width,
       decoration: BoxDecoration(
-        color: Color(0xff2a2e3d),
+        color: const Color(0xff2a2e3d),
         borderRadius: BorderRadius.circular(15),
       ),
       child: TextFormField(
         enabled: edit ? true : false,
         controller: _descriptionController,
         maxLines: null,
-        style: TextStyle(color: Colors.white, fontSize: 14),
-        decoration: InputDecoration(
+        style: const TextStyle(color: Colors.white, fontSize: 14),
+        decoration: const InputDecoration(
             hintText: "Description",
             border: InputBorder.none,
             hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
             contentPadding: EdgeInsets.only(left: 20, right: 20, top: 8)),
       ),
     );
-  }
+  } */
 
-  Widget summa() {
+/*   Widget summa() {
     return Container(
       height: 60,
-      width: MediaQuery.of(context).size.width,
+      width: Get.size.width,
       decoration: BoxDecoration(
-        color: Color(0xff2a2e3d),
+        color: const Color(0xff2a2e3d),
         borderRadius: BorderRadius.circular(15),
       ),
       child: TextField(
         keyboardType: TextInputType.number,
         controller: _summaController,
         maxLines: null,
-        style: TextStyle(color: Colors.white, fontSize: 14),
-        decoration: InputDecoration(
+        style: const TextStyle(color: Colors.white, fontSize: 14),
+        decoration: const InputDecoration(
             hintText: "Сумма заявки",
             border: InputBorder.none,
             hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
             contentPadding: EdgeInsets.only(left: 20, right: 20, top: 8)),
       ),
     );
-  }
+  } */
 
-  Widget title() {
+/*   Widget title() {
     return Container(
       height: 40,
-      width: MediaQuery.of(context).size.width,
+      width: Get.size.width,
       decoration: BoxDecoration(
-        color: Color(0xff2a2e3d),
+        color: const Color(0xff2a2e3d),
         borderRadius: BorderRadius.circular(15),
       ),
       child: TextFormField(
         enabled: edit ? true : false,
         controller: _titleController,
-        style: TextStyle(color: Colors.white, fontSize: 14),
-        decoration: InputDecoration(
+        style: const TextStyle(color: Colors.white, fontSize: 14),
+        decoration: const InputDecoration(
             hintText: "Task Title",
             border: InputBorder.none,
             hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
             contentPadding: EdgeInsets.only(left: 20, right: 20, bottom: 5)),
       ),
     );
-  }
+  } */
 
   Widget label(String text) {
     return Text(
       text,
-      style: TextStyle(
+      style: const TextStyle(
           color: Colors.white,
           fontSize: 16.5,
           fontWeight: FontWeight.w600,

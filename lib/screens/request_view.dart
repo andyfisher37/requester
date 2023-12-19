@@ -1,24 +1,13 @@
-// ignore_for_file: file_names, prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last
-
+import 'package:date_time_format/date_time_format.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:requester/controllers/request_controller.dart';
 
-class TodoCard extends StatelessWidget {
-  const TodoCard({
-    Key? key,
-    required this.title,
-    required this.iconData,
-    required this.iconColor,
-    required this.time,
-    required this.check,
-    required this.iconBgColor,
-  }) : super(key: key);
+class RequestView extends StatelessWidget {
+  final RequestController controller = Get.find();
+  final int index;
 
-  final String title;
-  final IconData iconData;
-  final Color iconColor;
-  final String time;
-  final bool check;
-  final Color iconBgColor;
+  RequestView({super.key, required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -32,12 +21,15 @@ class TodoCard extends StatelessWidget {
               unselectedWidgetColor: Color(0xff5e616a),
             ),
             child: Transform.scale(
-              scale: 1.3,
+              scale: 1.4,
               child: Checkbox(
-                activeColor: Color(0xff6cf8a9),
-                checkColor: Color(0xff0e3e26),
-                value: check,
-                onChanged: (bool? value) {},
+                activeColor: Color.fromARGB(255, 53, 9, 134),
+                value: controller.requestList[index].isExecute,
+                onChanged: (v) {
+                  var changed = controller.requestList[index];
+                  changed.isExecute = v!;
+                  controller.requestList[index] = changed;
+                },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5),
                 ),
@@ -46,7 +38,7 @@ class TodoCard extends StatelessWidget {
           ),
           Expanded(
             child: Container(
-              padding: EdgeInsets.symmetric(vertical: 10),
+              padding: const EdgeInsets.symmetric(vertical: 10),
               height: 75,
               child: Card(
                 shape: RoundedRectangleBorder(
@@ -55,27 +47,27 @@ class TodoCard extends StatelessWidget {
                 color: Color(0xff2a2e3d),
                 child: Row(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       width: 15,
                     ),
                     Container(
                       height: 27,
                       width: 27,
-                      child: Icon(
-                        iconData,
-                        color: iconColor,
-                      ),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: iconBgColor),
+                          color: Colors.blue),
+                      child: const Icon(
+                        Icons.edit_document,
+                        color: Colors.white,
+                      ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 20,
                     ),
                     Expanded(
                       child: Text(
-                        title,
-                        style: TextStyle(
+                        controller.requestList[index].title,
+                        style: const TextStyle(
                             fontSize: 16,
                             color: Colors.white,
                             letterSpacing: 1,
@@ -83,13 +75,13 @@ class TodoCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      time,
-                      style: TextStyle(
+                      controller.requestList[index].paydate.format('d.m.Y'),
+                      style: const TextStyle(
                           fontSize: 15,
                           color: Colors.white,
                           fontWeight: FontWeight.w300),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 20,
                     ),
                   ],
