@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 //import 'package:requester/pages/addTodo.dart';
 import 'package:requester/screens/homepage.dart';
 import 'package:requester/pages/signup.dart';
-import 'package:requester/pages/splash/splash_screen.dart';
+import 'package:requester/screens/splash_screen.dart';
 import 'package:requester/service/google_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -47,7 +47,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     //Firebase.initializeApp();
     return GetMaterialApp(
-      home: HomePage(),
+      home: SplashScreen(),
       debugShowCheckedModeBanner: false,
     );
   }

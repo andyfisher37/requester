@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-//import '/res/assets/app_images.dart';
-//import '../../res/app_color.dart';
-//import '../../view model/services/splash_services.dart';
+import 'package:get/get.dart';
+import 'package:requester/screens/homepage.dart';
+import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:page_transition/page_transition.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -18,7 +19,19 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return AnimatedSplashScreen(
+      backgroundColor: Colors.black,
+      duration: 3500,
+      splash: Image.asset('assets/images/splash.png'),
+      splashIconSize: Get.width / 2,
+      nextScreen: HomePage(),
+      splashTransition: SplashTransition.scaleTransition,
+      pageTransitionType: PageTransitionType.leftToRight,
+    );
+  }
+}
+
+/* Scaffold(
       backgroundColor: Colors.black,
       body: Center(
         child: Column(
@@ -55,6 +68,4 @@ class _SplashScreenState extends State<SplashScreen> {
           ],
         ),
       ),
-    );
-  }
-}
+    ); */
