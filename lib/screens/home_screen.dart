@@ -17,7 +17,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:requester/controllers/request_controller.dart';
 import 'package:requester/screens/request_view.dart';
 
-class HomePage extends StatelessWidget {
+class HomeScreen extends StatelessWidget {
   //HomePage({Key? key}) : super(key: key);
 
 //   @override
@@ -114,7 +114,7 @@ class HomePage extends StatelessWidget {
             BottomNavigationBarItem(
                 icon: InkWell(
                   onTap: () {
-                    Get.to(AddRequestPage());
+                    Get.to(() => AddRequestPage());
                     // Navigator.push(
                     //     context,
                     //     MaterialPageRoute(
@@ -191,24 +191,25 @@ class HomePage extends StatelessWidget {
                     },
                     child: ListTile(
                       title: Text(requestController.requestList[index].title,
-                          style: (requestController
-                                  .requestList[index].isExecute)
-                              ? TextStyle(
-                                  color: Colors.red,
-                                  decoration: TextDecoration.lineThrough)
-                              : TextStyle(
-                                  color: Color.fromARGB(255, 255, 254, 254))),
+                          style:
+                              (requestController.requestList[index].isExecute)
+                                  ? TextStyle(
+                                      color: Colors.red,
+                                      decoration: TextDecoration.lineThrough)
+                                  : TextStyle(color: Colors.white)),
                       onTap: () {
-                        Get.to(ViewReqDataPage(
-                          index: index,
-                        ));
+                        Get.to(() => ViewReqDataPage(
+                              index: index,
+                            ));
                       },
                       leading: Checkbox(
                         value: requestController.requestList[index].isExecute,
                         onChanged: (v) {
-                          var changed = requestController.requestList[index];
-                          changed.isExecute = v!;
-                          requestController.requestList[index] = changed;
+                          bool ch =
+                              requestController.requestList[index].isExecute;
+                          ch = v!;
+                          requestController.requestList[index].isExecute = ch;
+                          requestController.update();
                         },
                       ),
                       trailing: Icon(Icons.chevron_right),

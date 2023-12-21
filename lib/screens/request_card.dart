@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,30 +5,26 @@ import 'package:get/get.dart';
 import 'package:requester/controllers/request_controller.dart';
 import 'package:intl/intl.dart';
 import 'package:date_time_format/date_time_format.dart';
+import 'package:requester/utils/label.dart';
 
-class AddRequestPage extends StatefulWidget {
-  const AddRequestPage({Key? key}) : super(key: key);
-  final RequestController controller = Get.find();
+class RequestCard extends StatelessWidget {
   final int index;
+  final RequestController controller = Get.find();
 
-  @override
-  State<AddRequestPage> createState() => _AddRequestPageState();
-}
-
-class _AddRequestPageState extends State<AddRequestPage> {
-  TextEditingController _titleController = TextEditingController();
-  TextEditingController _descriptionController = TextEditingController();
-  TextEditingController _summaController = TextEditingController();
-  TextEditingController _stavkaController = TextEditingController();
-  TextEditingController _returnDateController = TextEditingController();
-  TextEditingController _innController = TextEditingController();
-  String type = "";
-  String category = "";
-  bool isNDSChecked = false;
+  RequestCard({super.key, required this.index});
 
   @override
   Widget build(BuildContext context) {
     final req = controller.requestList[index];
+    TextEditingController _titleController = TextEditingController();
+    TextEditingController _descriptionController = TextEditingController();
+    TextEditingController _summaController = TextEditingController();
+    TextEditingController _stavkaController = TextEditingController();
+    TextEditingController _returnDateController = TextEditingController();
+    TextEditingController _innController = TextEditingController();
+    String type = "";
+    String category = "";
+    bool isNDSChecked = false;
 
     return SafeArea(
         child: Scaffold(
@@ -86,7 +80,26 @@ class _AddRequestPageState extends State<AddRequestPage> {
                     const SizedBox(
                       height: 5,
                     ),
-                    title(),
+                    Container(
+                      height: 40,
+                      width: Get.width,
+                      decoration: BoxDecoration(
+                        color: const Color(0xff2a2e3d),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: TextFormField(
+                        controller: _titleController,
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 14),
+                        decoration: const InputDecoration(
+                            hintText: "Название заявки",
+                            border: InputBorder.none,
+                            hintStyle:
+                                TextStyle(color: Colors.grey, fontSize: 14),
+                            contentPadding: EdgeInsets.only(
+                                left: 20, right: 20, bottom: 5)),
+                      ),
+                    ),
                     const SizedBox(
                       height: 5,
                     ),
@@ -434,18 +447,6 @@ class _AddRequestPageState extends State<AddRequestPage> {
             format: 'd.m.Y',
           );
         },
-      ),
-    );
-  }
-
-  Widget label(String text) {
-    return Text(
-      text,
-      style: const TextStyle(
-        color: Colors.white,
-        fontSize: 16.5,
-        fontWeight: FontWeight.w300,
-        letterSpacing: 1.5,
       ),
     );
   }

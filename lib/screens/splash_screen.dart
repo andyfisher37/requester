@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:requester/screens/homepage.dart';
+import 'package:requester/screens/main_screen.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -24,7 +24,7 @@ class _SplashScreenState extends State<SplashScreen> {
       duration: 3500,
       splash: Image.asset('assets/images/splash.png'),
       splashIconSize: Get.width / 2,
-      nextScreen: HomePage(),
+      nextScreen: MainScreen(),
       splashTransition: SplashTransition.scaleTransition,
       pageTransitionType: PageTransitionType.leftToRight,
     );
