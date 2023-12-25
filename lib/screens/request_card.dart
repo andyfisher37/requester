@@ -5,26 +5,26 @@ import 'package:get/get.dart';
 import 'package:requester/controllers/request_controller.dart';
 import 'package:intl/intl.dart';
 import 'package:date_time_format/date_time_format.dart';
+import 'package:requester/screens/home_screen.dart';
 import 'package:requester/utils/label.dart';
 
 class RequestCard extends StatelessWidget {
   final int index;
   final RequestController controller = Get.find();
-
+  TextEditingController _titleController = TextEditingController();
+  TextEditingController _descriptionController = TextEditingController();
+  TextEditingController _summaController = TextEditingController();
+  TextEditingController _stavkaController = TextEditingController();
+  TextEditingController _returnDateController = TextEditingController();
+  TextEditingController _innController = TextEditingController();
+  String type = "";
+  String category = "";
+  bool isNDSChecked = false;
   RequestCard({super.key, required this.index});
 
   @override
   Widget build(BuildContext context) {
     final req = controller.requestList[index];
-    TextEditingController _titleController = TextEditingController();
-    TextEditingController _descriptionController = TextEditingController();
-    TextEditingController _summaController = TextEditingController();
-    TextEditingController _stavkaController = TextEditingController();
-    TextEditingController _returnDateController = TextEditingController();
-    TextEditingController _innController = TextEditingController();
-    String type = "";
-    String category = "";
-    bool isNDSChecked = false;
 
     return SafeArea(
         child: Scaffold(
@@ -186,9 +186,9 @@ class RequestCard extends StatelessWidget {
                         Checkbox(
                           value: isNDSChecked,
                           onChanged: (newValue) {
-                            setState(() {
-                              isNDSChecked = newValue!;
-                            });
+                            // setState(() {
+                            //   isNDSChecked = newValue!;
+                            // });
                           },
                         ),
                       ],
@@ -200,7 +200,7 @@ class RequestCard extends StatelessWidget {
                     const SizedBox(
                       height: 5,
                     ),
-                    returnDate(),
+                    returnDate(context),
                     const SizedBox(
                       height: 30,
                     ),
@@ -218,9 +218,9 @@ class RequestCard extends StatelessWidget {
   Widget taskSelect(String label, int color) {
     return InkWell(
       onTap: () {
-        setState(() {
-          type = label;
-        });
+        // setState(() {
+        //   type = label;
+        // });
       },
       child: Chip(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -240,9 +240,9 @@ class RequestCard extends StatelessWidget {
   Widget categorySelect(String label, int color) {
     return InkWell(
       onTap: () {
-        setState(() {
-          category = label;
-        });
+        // setState(() {
+        //   category = label;
+        // });
       },
       child: Chip(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -276,7 +276,7 @@ class RequestCard extends StatelessWidget {
           'paydate': DateTime.now(),
           'returndate': DateTime.parse(_returnDateController.text),
         });
-        Navigator.pop(context);
+        Get.to(HomeScreen());
       },
       child: Container(
           height: 55,
@@ -414,7 +414,7 @@ class RequestCard extends StatelessWidget {
     );
   }
 
-  Widget returnDate() {
+  Widget returnDate(BuildContext ctx) {
     return Container(
       height: 40,
       width: Get.width,
@@ -434,10 +434,10 @@ class RequestCard extends StatelessWidget {
             contentPadding: EdgeInsets.only(left: 20, right: 20, bottom: 5)),
         onTap: () async {
           DateTime date = DateTime(1900);
-          FocusScope.of(context).requestFocus(FocusNode());
+          //FocusScope.of(context).requestFocus(FocusNode());
 
           date = (await showDatePicker(
-              context: context,
+              context: ctx,
               initialDate: DateTime.now().add(const Duration(days: 30)),
               firstDate: DateTime.now().add(const Duration(days: 1)),
               lastDate: DateTime(2100)))!;

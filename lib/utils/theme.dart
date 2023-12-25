@@ -31,20 +31,20 @@ class ThemesApp {
     primaryColor: mainColor,
     secondaryHeaderColor: Colors.grey.shade100,
     textTheme: TextTheme(
-      headline1: TextStyle(
+      headline1: const TextStyle(
         color: Colors.black,
       ),
       headline2: TextStyle(
         color: Colors.white.withOpacity(.8),
       ),
-      headline3: TextStyle(
+      headline3: const TextStyle(
         color: Colors.white,
       ),
       // conttiner
-      headline4: TextStyle(
+      headline4: const TextStyle(
         color: Colors.white,
       ),
-      headline5: TextStyle(
+      headline5: const TextStyle(
         color: Color.fromRGBO(144, 152, 177, 1),
       ),
     ),
@@ -58,30 +58,30 @@ class ThemesApp {
         style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all<Color>(mainColor))),
     bottomNavigationBarTheme:
-        BottomNavigationBarThemeData(backgroundColor: Colors.white),
-    iconTheme: IconThemeData(color: Colors.black),
+        const BottomNavigationBarThemeData(backgroundColor: Colors.white),
+    iconTheme: const IconThemeData(color: Colors.black),
     hintColor: authTextFromFieldHintTextColor,
   );
 
   static final dark = ThemeData.dark().copyWith(
-    scaffoldBackgroundColor: Color(0xFF18172B),
+    scaffoldBackgroundColor: const Color(0xFF18172B),
     primaryColor: darkGreyClr,
-        secondaryHeaderColor:Color(0xFF27273c),
+        secondaryHeaderColor:const Color(0xFF27273c),
 
     textTheme: TextTheme(
-      headline1: TextStyle(
+      headline1: const TextStyle(
         color: Colors.white,
       ),
       headline2: TextStyle(
-        color: Color(0xFF18172B).withOpacity(.8),
+        color: const Color(0xFF18172B).withOpacity(.8),
       ),
-      headline3: TextStyle(
+      headline3: const TextStyle(
         color: Colors.black,
       ),
-      headline4: TextStyle(
+      headline4: const TextStyle(
         color: Color(0xFF27273c),
       ),
-      headline5: TextStyle(
+      headline5: const TextStyle(
         color: Color.fromRGBO(144, 152, 177, 1),
       ),
     ),
@@ -93,13 +93,13 @@ class ThemesApp {
       iconTheme: IconThemeData(color: Colors.white),
     ),
 
-    cardColor: Color(0xFF27273c),
+    cardColor: const Color(0xFF27273c),
     elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all<Color>(mainColor))),
     bottomNavigationBarTheme:
-        BottomNavigationBarThemeData(backgroundColor: Color(0xFF1F1F30)),
-    iconTheme: IconThemeData(color: Colors.white),
+        const BottomNavigationBarThemeData(backgroundColor: Color(0xFF1F1F30)),
+    iconTheme: const IconThemeData(color: Colors.white),
 
     hintColor: Colors.white,
   );

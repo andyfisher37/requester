@@ -1,9 +1,11 @@
 import 'package:get/get.dart';
+import 'package:requester/bindings/home_bindings.dart';
 import 'package:requester/bindings/main_bindings.dart';
 import 'package:requester/bindings/onBoarding_home_bindings.dart';
 import 'package:requester/bindings/settings_bindings.dart';
 import 'package:requester/screens/home_screen.dart';
 import 'package:requester/screens/main_screen.dart';
+import 'package:requester/screens/settings_screen.dart';
 
 import '../screens/splash_screen.dart';
 

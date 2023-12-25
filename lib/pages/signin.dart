@@ -226,7 +226,7 @@ class _SignInPageState extends State<SignInPage> {
           // ignore: use_build_context_synchronously
           Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (builder) => HomePage()),
+              MaterialPageRoute(builder: (builder) => HomeScreen()),
               (route) => false);
         } catch (e) {
           final snackbar = SnackBar(content: Text(e.toString()));

@@ -10,8 +10,8 @@ import 'package:date_time_format/date_time_format.dart';
 
 class AddRequestPage extends StatefulWidget {
   const AddRequestPage({Key? key}) : super(key: key);
-  final RequestController controller = Get.find();
-  final int index;
+  // final RequestController controller = Get.find();
+  // final int index;
 
   @override
   State<AddRequestPage> createState() => _AddRequestPageState();
@@ -30,7 +30,7 @@ class _AddRequestPageState extends State<AddRequestPage> {
 
   @override
   Widget build(BuildContext context) {
-    final req = controller.requestList[index];
+    // final req = controller.requestList[index];
 
     return SafeArea(
         child: Scaffold(

@@ -2,10 +2,12 @@
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_time_format/date_time_format.dart';
+import 'package:requester/controllers/home_controllers.dart';
 //import 'package:requester/custom/todoCard.dart';
 import 'package:requester/models/request.dart';
 import 'package:requester/pages/addRequest.dart';
 import 'package:requester/pages/signin.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 //import 'package:requester/pages/viewdata.dart';
 import 'package:requester/pages/viewReqDataPage.dart';
 import 'package:requester/service/google_auth.dart';
@@ -16,16 +18,25 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:requester/controllers/request_controller.dart';
 import 'package:requester/screens/request_view.dart';
+import 'package:requester/widgets/appbarItem.dart';
+import 'package:requester/widgets/homeRequestCard.dart';
 
-class HomeScreen extends StatelessWidget {
-  //HomePage({Key? key}) : super(key: key);
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
 
-//   @override
-//   State<HomePage> createState() => _HomePageState();
-// }
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   AuthClass authClass = AuthClass();
+  final homeController = Get.find<HomeController>();
 
-//class _HomePageState extends State<HomePage> {
+// Обновление основного экрана на главной странице
+  Future<Null> _refreshLocalGallery() async {
+    homeController.homeRequestList.value = [];
+    homeController.viewHomeRequestList();
+  }
 
   // final Stream<QuerySnapshot> _stream =
   //     FirebaseFirestore.instance.collection("Todo").snapshots();
@@ -34,12 +45,102 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final requestController = Get.put(RequestController());
+    //final requestController = Get.find<RequestController>();
 
     return SafeArea(
       child: Scaffold(
+        body: RefreshIndicator(
+          onRefresh: _refreshLocalGallery,
+          child: SingleChildScrollView(
+            physics: AlwaysScrollableScrollPhysics(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                AppBarItem(),
+                SizedBox(
+                  height: 10.h,
+                ),
+                GetBuilder<HomeController>(builder: (_) => RequestShow()),
+                SizedBox(
+                  height: 10.h,
+                ),
+                // CustomRowHomePage(
+                //     firstText: 'Popular foods'.tr,
+                //     scoindText: 'SeeMore'.tr,
+                //     press: () {
+                //       Get.toNamed(Routes.allFoodScreen);
+                //     }),
+                // SizedBox(
+                //   height: 10.h,
+                // ),
+              ],
+            ),
+          ),
+        ),
+        /* Obx(
+          () => ListView.separated(
+              itemBuilder: (context, index) => Dismissible(
+                    key: UniqueKey(),
+                    onDismissed: (_) {
+                      Request? removed = requestController.requestList[index];
+                      requestController.requestList.removeAt(index);
+                      Get.snackbar(
+                          'ВНИМАНИЕ', 'Заявка "${removed.title}" удалена.',
+                          colorText: Colors.white,
+                          snackPosition: SnackPosition.BOTTOM,
+                          duration: Duration(seconds: 8),
+                          mainButton: TextButton(
+                            child: Text('Undo',
+                                style: TextStyle(
+                                    color: const Color.fromARGB(
+                                        255, 201, 202, 202))),
+                            onPressed: () {
+                              if (removed.isNull) {
+                                return;
+                              }
+                              requestController.requestList
+                                  .insert(index, removed!);
+                              removed = null;
+                              if (Get.isSnackbarOpen) {
+                                Get.back();
+                              }
+                            },
+                          ));
+                    },
+                    child: ListTile(
+                      title: Text(requestController.requestList[index].title,
+                          style:
+                              (requestController.requestList[index].isExecute)
+                                  ? TextStyle(
+                                      color: Colors.red,
+                                      decoration: TextDecoration.lineThrough)
+                                  : TextStyle(color: Colors.white)),
+                      onTap: () {
+                        Get.to(() => ViewReqDataPage(index: index));
+                      },
+                      leading: Checkbox(
+                        value: requestController.requestList[index].isExecute,
+                        onChanged: (v) {
+                          bool ch =
+                              requestController.requestList[index].isExecute;
+                          ch = v!;
+                          requestController.requestList[index].isExecute = ch;
+                          requestController.update();
+                        },
+                      ),
+                      trailing: Icon(Icons.chevron_right),
+                    ),
+                  ),
+              separatorBuilder: (_, __) => Divider(),
+              itemCount: requestController.requestList.length),
+        ), */
         backgroundColor: Colors.black87,
-        appBar: AppBar(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {},
+          child: Icon(Icons.add),
+        ),
+
+        /* appBar: AppBar(
           // leading: SvgPicture.asset(
           //   'assets/icons/menu.svg',
           //   color: Colors.white,
@@ -94,8 +195,8 @@ class HomeScreen extends StatelessWidget {
             ),
             preferredSize: Size.fromHeight(35),
           ),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
+        ), */
+        /* bottomNavigationBar: BottomNavigationBar(
           backgroundColor: Colors.black87,
           items: [
             BottomNavigationBarItem(
@@ -158,66 +259,7 @@ class HomeScreen extends StatelessWidget {
                 label: '',
                 backgroundColor: Colors.red),
           ],
-        ),
-        body: Container(
-          child: Obx(() => ListView.separated(
-              itemBuilder: (context, index) => Dismissible(
-                    key: UniqueKey(),
-                    onDismissed: (_) {
-                      Request? removed = requestController.requestList[index];
-                      requestController.requestList.removeAt(index);
-                      Get.snackbar(
-                          'ВНИМАНИЕ', 'Заявка "${removed.title}" удалена.',
-                          colorText: Colors.white,
-                          snackPosition: SnackPosition.BOTTOM,
-                          duration: Duration(seconds: 8),
-                          mainButton: TextButton(
-                            child: Text('Undo',
-                                style: TextStyle(
-                                    color: const Color.fromARGB(
-                                        255, 201, 202, 202))),
-                            onPressed: () {
-                              if (removed.isNull) {
-                                return;
-                              }
-                              requestController.requestList
-                                  .insert(index, removed!);
-                              removed = null;
-                              if (Get.isSnackbarOpen) {
-                                Get.back();
-                              }
-                            },
-                          ));
-                    },
-                    child: ListTile(
-                      title: Text(requestController.requestList[index].title,
-                          style:
-                              (requestController.requestList[index].isExecute)
-                                  ? TextStyle(
-                                      color: Colors.red,
-                                      decoration: TextDecoration.lineThrough)
-                                  : TextStyle(color: Colors.white)),
-                      onTap: () {
-                        Get.to(() => ViewReqDataPage(
-                              index: index,
-                            ));
-                      },
-                      leading: Checkbox(
-                        value: requestController.requestList[index].isExecute,
-                        onChanged: (v) {
-                          bool ch =
-                              requestController.requestList[index].isExecute;
-                          ch = v!;
-                          requestController.requestList[index].isExecute = ch;
-                          requestController.update();
-                        },
-                      ),
-                      trailing: Icon(Icons.chevron_right),
-                    ),
-                  ),
-              separatorBuilder: (_, __) => Divider(),
-              itemCount: requestController.requestList.length)),
-        ),
+        ), */
 
         /* GetX<RequestController>(
           //init: Get.put<RequestController>(RequestController()),
@@ -281,6 +323,36 @@ class HomeScreen extends StatelessWidget {
             );
           },
         ), */
+      ),
+    );
+  }
+
+  SizedBox RequestShow() {
+    return SizedBox(
+      //height: 100,
+      child: Padding(
+        padding: EdgeInsets.only(left: 12.w),
+        child: ListView.builder(
+          physics: const BouncingScrollPhysics(),
+          scrollDirection: Axis.vertical,
+          shrinkWrap: true,
+          itemCount: homeController.homeRequestList.length,
+          itemBuilder: (context, index) {
+            return GestureDetector(
+              onTap: () {
+                // Get.toNamed(Routes.requestScreen, arguments: [
+                //   {
+                //     "id": homeController.requestList[index].id.toString(),
+                //   }
+                //]
+                //);
+              },
+              child: HomeRequestCard(
+                requestItem: homeController.homeRequestList[index],
+              ),
+            );
+          },
+        ),
       ),
     );
   }

@@ -1,7 +1,6 @@
 //import 'package:ecommerce_app/logic/controllers/auth_controllers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:requester/controllers/connection_manager_controller.dart';
@@ -9,10 +8,9 @@ import 'package:requester/controllers/connection_manager_controller.dart';
 //import '../../locale/locale.dart';
 
 //import 'package:requester/controllers/category_controller.dart';
-import 'package:requester/controllers/connection_manager_controller.dart';
 import 'package:requester/controllers/main_controller.dart';
 
-import '../../utils/theme.dart';
+import 'package:requester/utils/theme.dart';
 
 class MainScreen extends StatelessWidget {
   MainScreen({super.key});

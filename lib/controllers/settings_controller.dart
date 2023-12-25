@@ -2,18 +2,18 @@ import 'dart:io';
 
 import 'package:requester/main.dart';
 import 'package:requester/routes/routes.dart';
-import 'package:ecommerce_app/utils/my_string.dart';
+// import 'package:ecommerce_app/utils/my_string.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../services/auth_api.dart';
-import '../../services/baseAPI.dart';
-import '../../services/helper/handingdatacontroller.dart';
-import '../../services/helper/statusrequest.dart';
-import '../../services/settings_services.dart';
+// import '../../services/auth_api.dart';
+// import '../../services/baseAPI.dart';
+// import '../../services/helper/handingdatacontroller.dart';
+// import '../../services/helper/statusrequest.dart';
+// import '../../services/settings_services.dart';
 import '../../utils/shared_prefs.dart';
-import '../../view/widgets/get_snackbar.dart';
+// import '../../view/widgets/get_snackbar.dart';
 
 class SettingsController extends GetxController {
   var swithchThemwValue = false.obs;
@@ -65,7 +65,7 @@ class SettingsController extends GetxController {
 
   void save() async {
     if (file.path != '') {
-      ServicesApi.updateProfile(
+     /*  ServicesApi.updateProfile(
               file: file,
               name: nameFromTextFild.value == ''
                   ? name.value
@@ -75,9 +75,9 @@ class SettingsController extends GetxController {
         name.value = value.name!;
         image.value = value.image!;
         nameFromTextFild.value = value.name!;
-      });
+      }); */
     } else {
-      ServicesApi.updateProfile(
+      /* ServicesApi.updateProfile(
               file: null,
               name: nameFromTextFild.value == ''
                   ? name.value
@@ -86,7 +86,7 @@ class SettingsController extends GetxController {
         name.value = value.name!;
         image.value = value.image!;
         nameFromTextFild.value = value.name!;
-      });
+      }); */
     }
   }
 
@@ -96,7 +96,7 @@ class SettingsController extends GetxController {
   }) async {
     startLoding();
 
-    bool result = await AuthApi.changePassword(
+    /* bool result = await AuthApi.changePassword(
         old_password: old_password, password: password);
     if (result == true) {
       GetSnackbar(supTitle: '', title: "Done.");
@@ -107,11 +107,11 @@ class SettingsController extends GetxController {
 
       GetSnackbar(supTitle: '', title: "Oops! Something went wrong.");
     }
-    update();
+    update(); */
   }
 
   void logout() {
-    AuthApi().logout();
+    // AuthApi().logout();
     Get.toNamed(Routes.loginScreen);
     update();
   }

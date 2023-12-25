@@ -1,41 +1,22 @@
 import 'package:date_time_format/date_time_format.dart';
 import 'package:flutter/material.dart';
+//import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:requester/controllers/request_controller.dart';
+//import 'package:google_fonts/google_fonts.dart';
+import 'package:requester/models/request.dart';
 
-class RequestView extends StatelessWidget {
-  final RequestController controller = Get.find();
-  final int index;
-
-  RequestView({super.key, required this.index});
-
+class HomeRequestCard extends StatelessWidget {
+  const HomeRequestCard({
+    super.key,
+    required this.requestItem,
+  });
+  final Request requestItem;
   @override
   Widget build(BuildContext context) {
     return Container(
       width: Get.width,
       child: Row(
         children: [
-          Theme(
-            data: ThemeData(
-              primaryColor: Colors.blue,
-              unselectedWidgetColor: Color(0xff5e616a),
-            ),
-            child: Transform.scale(
-              scale: 1.4,
-              child: Checkbox(
-                activeColor: Color.fromARGB(255, 53, 9, 134),
-                value: controller.requestList[index].isExecute,
-                onChanged: (v) {
-                  var changed = controller.requestList[index];
-                  changed.isExecute = v!;
-                  controller.requestList[index] = changed;
-                },
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5),
-                ),
-              ),
-            ),
-          ),
           Expanded(
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 10),
@@ -66,7 +47,7 @@ class RequestView extends StatelessWidget {
                     ),
                     Expanded(
                       child: Text(
-                        controller.requestList[index].title,
+                        requestItem.title,
                         style: const TextStyle(
                             fontSize: 16,
                             color: Colors.white,
@@ -75,7 +56,7 @@ class RequestView extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      controller.requestList[index].paydate.format('d.m.Y'),
+                      requestItem.returndate.format('d.m.Y'),
                       style: const TextStyle(
                           fontSize: 15,
                           color: Colors.white,
@@ -92,5 +73,19 @@ class RequestView extends StatelessWidget {
         ],
       ),
     );
+    /* Padding(
+      padding: EdgeInsets.only(right: 5.w, bottom: 0, left: 10.w, top: 55.h),
+      child: Text(
+        requestItem.title,
+        maxLines: 1,
+        style: GoogleFonts.roboto(
+          textStyle: TextStyle(
+            color: Colors.white.withOpacity(1),
+            fontSize: 16,
+            fontWeight: FontWeight.w800,
+          ),
+        ),
+      ),
+    ); */
   }
 }
