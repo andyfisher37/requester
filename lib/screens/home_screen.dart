@@ -2,14 +2,16 @@
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_time_format/date_time_format.dart';
+import 'package:requester/controllers/add_request_screen_controller.dart';
 import 'package:requester/controllers/home_controllers.dart';
 //import 'package:requester/custom/todoCard.dart';
 import 'package:requester/models/request.dart';
-import 'package:requester/pages/addRequest.dart';
+import 'package:requester/screens/add_request_screen.dart';
 import 'package:requester/pages/signin.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 //import 'package:requester/pages/viewdata.dart';
 import 'package:requester/pages/viewReqDataPage.dart';
+import 'package:requester/routes/routes.dart';
 import 'package:requester/service/google_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -46,37 +48,48 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     //final requestController = Get.find<RequestController>();
+    Get.put(AddRequestScreenController());
 
     return SafeArea(
       child: Scaffold(
-        body: RefreshIndicator(
-          onRefresh: _refreshLocalGallery,
-          child: SingleChildScrollView(
-            physics: AlwaysScrollableScrollPhysics(),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                AppBarItem(),
-                SizedBox(
-                  height: 10.h,
+        body: Column(
+          children: [
+            RefreshIndicator(
+              onRefresh: _refreshLocalGallery,
+              child: SingleChildScrollView(
+                physics: AlwaysScrollableScrollPhysics(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    AppBarItem(),
+                    SizedBox(
+                      height: 10.h,
+                    ),
+                    GetBuilder<HomeController>(builder: (_) => requestShow()),
+                    SizedBox(
+                      height: 10.h,
+                    ),
+
+                    // CustomRowHomePage(
+                    //     firstText: 'Popular foods'.tr,
+                    //     scoindText: 'SeeMore'.tr,
+                    //     press: () {
+                    //       Get.toNamed(Routes.allFoodScreen);
+                    //     }),
+                    // SizedBox(
+                    //   height: 10.h,
+                    // ),
+                  ],
                 ),
-                GetBuilder<HomeController>(builder: (_) => RequestShow()),
-                SizedBox(
-                  height: 10.h,
-                ),
-                // CustomRowHomePage(
-                //     firstText: 'Popular foods'.tr,
-                //     scoindText: 'SeeMore'.tr,
-                //     press: () {
-                //       Get.toNamed(Routes.allFoodScreen);
-                //     }),
-                // SizedBox(
-                //   height: 10.h,
-                // ),
-              ],
+              ),
             ),
-          ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: addRequestButton(),
+            ),
+          ],
         ),
+
         /* Obx(
           () => ListView.separated(
               itemBuilder: (context, index) => Dismissible(
@@ -135,10 +148,6 @@ class _HomeScreenState extends State<HomeScreen> {
               itemCount: requestController.requestList.length),
         ), */
         backgroundColor: Colors.black87,
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-          child: Icon(Icons.add),
-        ),
 
         /* appBar: AppBar(
           // leading: SvgPicture.asset(
@@ -327,7 +336,36 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  SizedBox RequestShow() {
+// Кнопка добавления заявки
+  Widget addRequestButton() {
+    return InkWell(
+      onTap: () {
+        Get.toNamed(Routes.addRequestScreen);
+      },
+      child: Container(
+        height: 50.h,
+        width: 52.w,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          gradient: LinearGradient(
+            colors: [
+              Color(0xffff9999),
+              Color(0xffff5050),
+              Color(0xffff4500),
+            ],
+          ),
+        ),
+        child: Icon(
+          size: 32,
+          Icons.add,
+          color: Colors.white,
+        ),
+      ),
+    );
+  }
+
+// Функция отображения сведений о заявке в списке домашней страницы
+  SizedBox requestShow() {
     return SizedBox(
       //height: 100,
       child: Padding(

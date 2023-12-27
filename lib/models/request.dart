@@ -2,12 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Request {
   String? id; // id заявки
-  late String userId; // id пользователя
+  late String userID; // id пользователя
   late String title; // краткое название заявки
   late String category; // категория (обычная, срочная)
   late bool isExecute; // Статус исполнения заявки
   late String description; // полное описание заявки
-  late String type;
   late double summa; // сумма
   late double stavka; // ставка
   late int inn; // ИНН владельца
@@ -17,12 +16,11 @@ class Request {
 
   Request({
     required this.id,
-    required this.userId,
+    required this.userID,
     required this.title,
     required this.category,
     required this.isExecute,
     required this.description,
-    required this.type,
     required this.summa,
     required this.stavka,
     required this.inn,
@@ -34,12 +32,11 @@ class Request {
   /// Creates a new [Request] object from a [Map] representation.
   Request.fromMap(Map<String, dynamic> map) {
     id = map['id'];
-    userId = map['userId'];
+    userID = map['userID'];
     title = map['title'];
     category = map['category'];
     isExecute = map['isExecute'];
     description = map['description'];
-    type = map['type'];
     summa = double.parse(map['summa'].toString());
     stavka = map['stavka'];
     inn = map['inn'];
@@ -51,12 +48,11 @@ class Request {
   Map<String, dynamic> toMap(Request req) {
     return {
       'id': req.id,
-      'userId': req.userId,
+      'userID': req.userID,
       'title': req.title,
       'category': req.category,
       'isExecute': req.isExecute,
       'description': req.description,
-      'type': req.type,
       'summa': req.summa,
       'stavka': req.stavka,
       'inn': req.inn,
@@ -69,12 +65,11 @@ class Request {
   /// Creates a new [Request] object from a [DocumentSnapshot] object.
   Request.fromDocumentSnapshot({required DocumentSnapshot documentSnapshot}) {
     id = documentSnapshot['id'];
-    userId = category = documentSnapshot['userId'];
+    userID = category = documentSnapshot['userID'];
     title = documentSnapshot['title'];
     category = documentSnapshot['category'];
     isExecute = documentSnapshot['isExecute'];
     description = documentSnapshot['description'];
-    type = documentSnapshot['type'];
     summa = documentSnapshot['summa'].toDouble();
     stavka = documentSnapshot['stavka'].toDouble();
     inn = documentSnapshot['inn'].toInt();

@@ -4,34 +4,29 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_switch/flutter_switch.dart';
+import 'package:requester/controllers/add_request_screen_controller.dart';
+
 import 'package:requester/controllers/request_controller.dart';
 import 'package:intl/intl.dart';
 import 'package:date_time_format/date_time_format.dart';
 
-class AddRequestPage extends StatefulWidget {
-  const AddRequestPage({Key? key}) : super(key: key);
-  // final RequestController controller = Get.find();
-  // final int index;
-
-  @override
-  State<AddRequestPage> createState() => _AddRequestPageState();
-}
-
-class _AddRequestPageState extends State<AddRequestPage> {
+class AddRequestScreen extends StatelessWidget {
   TextEditingController _titleController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
   TextEditingController _summaController = TextEditingController();
   TextEditingController _stavkaController = TextEditingController();
   TextEditingController _returnDateController = TextEditingController();
   TextEditingController _innController = TextEditingController();
-  String type = "";
-  String category = "";
+
   bool isNDSChecked = false;
 
+  AddRequestScreen({super.key});
+
+  final controller = Get.find<AddRequestScreenController>();
   @override
   Widget build(BuildContext context) {
-    // final req = controller.requestList[index];
-
     return SafeArea(
         child: Scaffold(
       body: Container(
@@ -71,14 +66,6 @@ class _AddRequestPageState extends State<AddRequestPage> {
                         fontFamily: 'Lobster',
                       ),
                     ),
-                    /* const Text(
-                      "Новая заявка",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 27,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 2),
-                    ), */
                     const SizedBox(
                       height: 5,
                     ),
@@ -90,19 +77,7 @@ class _AddRequestPageState extends State<AddRequestPage> {
                     const SizedBox(
                       height: 5,
                     ),
-                    label("Важность:"),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      children: [
-                        taskSelect("Срочная", 0xff2664fa),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        taskSelect("Обычная", 0xff2bc8d9),
-                      ],
-                    ),
+                    selectCategory(context),
                     const SizedBox(
                       height: 5,
                     ),
@@ -127,37 +102,8 @@ class _AddRequestPageState extends State<AddRequestPage> {
                       height: 5,
                     ),
                     stavka(),
-                    label("Категория заявки:"),
                     const SizedBox(
                       height: 5,
-                    ),
-                    Wrap(
-                      children: [
-                        categorySelect("Обмен", 0xffff6d6e),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        categorySelect("Housework", 0xfff29732),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        categorySelect("Grocery", 0xff6557ff),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        categorySelect("GYM", 0xff2bc8d9),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        categorySelect("Work", 0xff663300),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        categorySelect("School", 0xff009900),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                      ],
                     ),
                     label("ИНН:"),
                     const SizedBox(
@@ -167,19 +113,7 @@ class _AddRequestPageState extends State<AddRequestPage> {
                     const SizedBox(
                       height: 5,
                     ),
-                    Row(
-                      children: [
-                        label('С НДС:'),
-                        Checkbox(
-                          value: isNDSChecked,
-                          onChanged: (newValue) {
-                            setState(() {
-                              isNDSChecked = newValue!;
-                            });
-                          },
-                        ),
-                      ],
-                    ),
+                    selectNDS(context),
                     const SizedBox(
                       height: 5,
                     ),
@@ -187,11 +121,11 @@ class _AddRequestPageState extends State<AddRequestPage> {
                     const SizedBox(
                       height: 5,
                     ),
-                    returnDate(),
+                    returnDate(context),
                     const SizedBox(
                       height: 30,
                     ),
-                    createButton()
+                    createButton(context)
                   ],
                 ),
               )
@@ -202,68 +136,109 @@ class _AddRequestPageState extends State<AddRequestPage> {
     ));
   }
 
-  Widget taskSelect(String label, int color) {
-    return InkWell(
-      onTap: () {
-        setState(() {
-          type = label;
-        });
-      },
-      child: Chip(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        backgroundColor: type == label ? Colors.white : Color(color),
-        label: Text(
-          label,
+// селектро НДС
+  Widget selectNDS(BuildContext ctx) {
+    String lead_text = "Без";
+    return Obx(
+      () => ListTile(
+        leading: Icon(
+          Icons.wrap_text_sharp,
+          color: Theme.of(ctx).textTheme.headline1!.color,
+        ),
+        title: Text(
+          '$lead_text НДС:',
           style: TextStyle(
-            color: type == label ? Colors.black : Colors.white,
-            fontSize: 13,
+            color: Theme.of(ctx).textTheme.labelMedium!.color,
+            fontSize: 14.sp,
+            fontWeight: FontWeight.normal,
           ),
         ),
-        labelPadding: const EdgeInsets.symmetric(vertical: 1, horizontal: 7),
+        trailing: SizedBox(
+          width: 70.w,
+          child: FlutterSwitch(
+            height: 22.0,
+            width: 55.0,
+            padding: 1.5,
+            toggleSize: 20.0,
+            borderRadius: 13.0,
+            activeColor: Colors.red,
+            inactiveColor: Colors.green,
+            value: controller.isNDSValue.value,
+            onToggle: (value) {
+              controller.updateNDSValue();
+              controller.isNDSValue.value = value;
+              controller.isNDSValue.isFalse
+                  ? lead_text = "С"
+                  : lead_text = "Без";
+              // print(value);
+            },
+          ),
+        ),
       ),
     );
   }
 
-  Widget categorySelect(String label, int color) {
-    return InkWell(
-      onTap: () {
-        setState(() {
-          category = label;
-        });
-      },
-      child: Chip(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        backgroundColor: category == label ? Colors.black : Color(color),
-        label: Text(
-          label,
+// селектор категории
+  Widget selectCategory(BuildContext ctx) {
+    String cat = "(обычная)";
+    return Obx(
+      () => ListTile(
+        leading: Icon(
+          Icons.speed_outlined,
+          color: Theme.of(ctx).textTheme.headline1!.color,
+        ),
+        title: Text(
+          'Категория: $cat',
           style: TextStyle(
-            color: type == label ? Colors.white : Colors.white,
-            fontSize: 13,
+            color: Theme.of(ctx).textTheme.labelMedium!.color,
+            fontSize: 14.sp,
+            fontWeight: FontWeight.normal,
           ),
         ),
-        labelPadding: const EdgeInsets.symmetric(vertical: 1.0, horizontal: 7),
+        trailing: SizedBox(
+          width: 70.w,
+          child: FlutterSwitch(
+            height: 22.0,
+            width: 55.0,
+            padding: 1.5,
+            toggleSize: 20.0,
+            borderRadius: 13.0,
+            activeColor: Colors.red,
+            inactiveColor: Colors.green,
+            value: controller.swithRequestCategoryValue.value,
+            onToggle: (value) {
+              controller.updateCategoryValue();
+              controller.swithRequestCategoryValue.value = value;
+              controller.swithRequestCategoryValue.isFalse
+                  ? cat = "(обычная)"
+                  : cat = "(срочная)";
+              // print(value);
+            },
+          ),
+        ),
       ),
     );
   }
 
 // Кнопка создания заявки...
-  Widget createButton() {
+  Widget createButton(BuildContext ctx) {
     return InkWell(
       onTap: () {
         FirebaseFirestore.instance.collection("Request").add({
           'title': _titleController.text,
-          'category': category,
+          'category': controller.categoryValue,
           'isExecute': false,
           'description': _descriptionController.text,
-          'type': type,
           'summa': double.parse(_summaController.text),
           'stavka': double.parse(_stavkaController.text),
           'inn': int.parse(_innController.text),
-          'isNDS': isNDSChecked,
+          'isNDS': controller.isNDSValue.value,
           'paydate': DateTime.now(),
           'returndate': DateTime.parse(_returnDateController.text),
+          'userID': "userID",
+          'id': UniqueKey(),
         });
-        Navigator.pop(context);
+        Navigator.pop(ctx);
       },
       child: Container(
           height: 55,
@@ -401,7 +376,7 @@ class _AddRequestPageState extends State<AddRequestPage> {
     );
   }
 
-  Widget returnDate() {
+  Widget returnDate(BuildContext ctx) {
     return Container(
       height: 40,
       width: Get.width,
@@ -421,10 +396,10 @@ class _AddRequestPageState extends State<AddRequestPage> {
             contentPadding: EdgeInsets.only(left: 20, right: 20, bottom: 5)),
         onTap: () async {
           DateTime date = DateTime(1900);
-          FocusScope.of(context).requestFocus(FocusNode());
+          FocusScope.of(ctx).requestFocus(FocusNode());
 
           date = (await showDatePicker(
-              context: context,
+              context: ctx,
               initialDate: DateTime.now().add(const Duration(days: 30)),
               firstDate: DateTime.now().add(const Duration(days: 1)),
               lastDate: DateTime(2100)))!;

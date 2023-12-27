@@ -7,6 +7,7 @@ import 'package:requester/models/request.dart';
 
 class ViewReqDataPage extends StatelessWidget {
   final RequestController controller = Get.find();
+
   //final Map<String, dynamic> document;
   final int index;
 
@@ -20,7 +21,7 @@ class ViewReqDataPage extends StatelessWidget {
 // late TextEditingController _titleController;
 //  late TextEditingController _descriptionController;
 //  late TextEditingController _summaController;
-  String type = "";
+
   String category = "";
   bool edit = false;
 
@@ -40,14 +41,14 @@ class ViewReqDataPage extends StatelessWidget {
 
     String description =
         req.description == null ? "Description is Empty" : req.description;
-    TextEditingController _descriptionController = TextEditingController(text: req.description);
+    TextEditingController _descriptionController =
+        TextEditingController(text: req.description);
 
     double summa = req.summa == null ? 0.0 : double.parse(req.summa.toString());
-    TextEditingController _summaController = TextEditingController(text: req.summa.toString());
+    TextEditingController _summaController =
+        TextEditingController(text: req.summa.toString());
 
     category = req.category;
-
-    type = req.type;
 
     return SafeArea(
         child: Scaffold(
@@ -277,13 +278,13 @@ class ViewReqDataPage extends StatelessWidget {
                                 'category': category,
                                 'isExecute': false,
                                 'description': _descriptionController.text,
-                                'type': type,
                                 'summa': double.parse(_summaController.text),
                                 'stavka': 1.0,
                                 'inn': 137000023,
                                 'isNDS': false,
                                 'paydate': DateTime.now(),
                                 'returndate': DateTime.now(),
+                                'userID': '',
                               });
                               Get.back();
                             },
@@ -330,11 +331,11 @@ class ViewReqDataPage extends StatelessWidget {
           : null,
       child: Chip(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        backgroundColor: type == label ? Colors.white : Color(color),
+        // backgroundColor: type == label ? Colors.white : Color(color),
         label: Text(
           label,
           style: TextStyle(
-              color: type == label ? Colors.black : Colors.white,
+              //  color: type == label ? Colors.black : Colors.white,
               fontSize: 13,
               fontWeight: FontWeight.bold),
         ),
@@ -358,7 +359,7 @@ class ViewReqDataPage extends StatelessWidget {
         label: Text(
           label,
           style: TextStyle(
-              color: type == label ? Colors.white : Colors.white,
+              // color: type == label ? Colors.white : Colors.white,
               fontSize: 13,
               fontWeight: FontWeight.bold),
         ),

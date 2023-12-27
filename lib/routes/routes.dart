@@ -3,6 +3,7 @@ import 'package:requester/bindings/home_bindings.dart';
 import 'package:requester/bindings/main_bindings.dart';
 import 'package:requester/bindings/onBoarding_home_bindings.dart';
 import 'package:requester/bindings/settings_bindings.dart';
+import 'package:requester/screens/add_request_screen.dart';
 import 'package:requester/screens/home_screen.dart';
 import 'package:requester/screens/main_screen.dart';
 import 'package:requester/screens/settings_screen.dart';
@@ -141,11 +142,10 @@ class AppRoutes {
     //     name: Routes.allFoodScreen,
     //     page: () => AllFoodScreen(),
     //     binding: FodeBindings()),
-    // GetPage(
-    //   name: Routes.offerScreen,
-    //   page: () => OfferScreen(),
-    //   binding: OfferBindings(),
-    // ),
+    GetPage(
+      name: Routes.addRequestScreen,
+      page: () => AddRequestScreen(),
+    ),
     // GetPage(
     //   name: Routes.updatePassword,
     //   page: () => UpdatePassword(),
@@ -186,7 +186,9 @@ class Routes {
   static const allReviewScreen = '/allReviewScreen';
   static const writeReviewScreen = '/writeReviewScreen';
   static const allFoodScreen = '/allFoodScreen';
-  static const offerScreen = '/offerScreen';
+
+  static const addRequestScreen = '/addRequestScreen';
+
   static const updatePassword = '/changePassword';
 
   // ForgotPasswordCodeScreen
