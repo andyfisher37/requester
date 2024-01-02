@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
-import 'package:requester/screens/archive_screen.dart';
-import 'package:requester/screens/chat_screen.dart';
-import 'package:requester/screens/home_screen.dart';
-import 'package:requester/screens/settings_screen.dart';
+import 'package:requester/screens/archive/archive_screen.dart';
+import 'package:requester/screens/chat/chat_screen.dart';
+import 'package:requester/screens/home/home_screen.dart';
+import 'package:requester/screens/settings/settings_screen.dart';
 import '../../utils/theme.dart';
 // import '../../view/screens/cart/cart_screen.dart';
 // import '../../view/screens/favorites_screen.dart';

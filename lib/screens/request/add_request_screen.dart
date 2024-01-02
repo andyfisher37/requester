@@ -236,7 +236,7 @@ class AddRequestScreen extends StatelessWidget {
           'paydate': DateTime.now(),
           'returndate': DateTime.parse(_returnDateController.text),
           'userID': "userID",
-          'id': UniqueKey(),
+          'id': UniqueKey().toString(),
         });
         Navigator.pop(ctx);
       },
@@ -406,7 +406,7 @@ class AddRequestScreen extends StatelessWidget {
 
           _returnDateController.text = DateTimeFormat.format(
             date,
-            format: 'd.m.Y',
+            format: 'Y-m-d',
           );
         },
       ),

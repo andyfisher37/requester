@@ -19,6 +19,15 @@ class RequestController extends GetxController {
       requestList =
           data.map((e) => Request.fromMap(e as Map<String, dynamic>)).toList();
     }
+    update();
+  }
+
+  // Выборка всей коллекции - на выходе список
+  static Future<List<Request>> getAllEntries() async {
+    return (await FirebaseFirestore.instance.collection('Request').get())
+        .docs
+        .map((item) => Request.fromMap(item.data()))
+        .toList();
   }
 
   Future<List<Request>> getRequestData() async {
@@ -31,15 +40,47 @@ class RequestController extends GetxController {
   Future<void> addRequest(Request request) async {
     requestList.add(request);
     await _collectionRef.add(request);
+    getData();
   }
 
   Future<void> updateRequest(Request newValue, String uid, String reqID) async {
     try {
-      _collectionRef.doc(reqID).update(newValue.toMap(newValue));
+      _collectionRef.doc(reqID).update(newValue.toMap());
     } catch (e) {
       print(e);
       rethrow;
     }
+  }
+
+  // Выборка с сортировкой по названию
+  static Future<List<Request>> getAllEntriesSortedByTitle() async {
+    return (await FirebaseFirestore.instance
+            .collection('Request')
+            .orderBy("title", descending: false)
+            .get())
+        .docs
+        .map((item) => Request.fromMap(item.data()))
+        .toList();
+  }
+
+  // Выборка только активных (на исполнении)
+  static Future<List<Request>> getAllEntriesFilteredByPrice() async {
+    return (await FirebaseFirestore.instance
+            .collection('Request')
+            .where("isExecute", isEqualTo: true)
+            .get())
+        .docs
+        .map((item) => Request.fromMap(item.data()))
+        .toList();
+  }
+
+  // Обновление документа по ID (missing fields won't be touched on update), document must exist
+  static Future updateEntryWithId(
+      String documentId, Map<String, dynamic> data) async {
+    await FirebaseFirestore.instance
+        .collection('Request')
+        .doc(documentId)
+        .update(data);
   }
 
   @override
@@ -51,5 +92,6 @@ class RequestController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    getData();
   }
 }

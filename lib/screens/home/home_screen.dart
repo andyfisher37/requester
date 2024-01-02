@@ -6,7 +6,7 @@ import 'package:requester/controllers/add_request_screen_controller.dart';
 import 'package:requester/controllers/home_controllers.dart';
 //import 'package:requester/custom/todoCard.dart';
 import 'package:requester/models/request.dart';
-import 'package:requester/screens/add_request_screen.dart';
+import 'package:requester/screens/request/add_request_screen.dart';
 import 'package:requester/pages/signin.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 //import 'package:requester/pages/viewdata.dart';
@@ -19,7 +19,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:requester/controllers/request_controller.dart';
-import 'package:requester/screens/request_view.dart';
+import 'package:requester/screens/request/request_view.dart';
 import 'package:requester/widgets/appbarItem.dart';
 import 'package:requester/widgets/homeRequestCard.dart';
 
@@ -32,12 +32,11 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   AuthClass authClass = AuthClass();
-  final homeController = Get.find<HomeController>();
+  var ctrl = Get.find<RequestController>();
 
-// Обновление основного экрана на главной странице
+  // Обновление основного экрана на главной странице
   Future<Null> _refreshLocalGallery() async {
-    homeController.homeRequestList.value = [];
-    homeController.viewHomeRequestList();
+    ctrl.getData();
   }
 
   // final Stream<QuerySnapshot> _stream =
@@ -374,19 +373,45 @@ class _HomeScreenState extends State<HomeScreen> {
           physics: const BouncingScrollPhysics(),
           scrollDirection: Axis.vertical,
           shrinkWrap: true,
-          itemCount: homeController.homeRequestList.length,
+          itemCount: ctrl.requestList.length,
           itemBuilder: (context, index) {
-            return GestureDetector(
-              onTap: () {
-                // Get.toNamed(Routes.requestScreen, arguments: [
-                //   {
-                //     "id": homeController.requestList[index].id.toString(),
-                //   }
-                //]
-                //);
+            return Dismissible(
+              key: UniqueKey(),
+              onDismissed: (_) {
+                Request? removed = ctrl.requestList[index];
+                ctrl.requestList.removeAt(index);
+                Get.snackbar('ВНИМАНИЕ', 'Заявка "${removed.title}" удалена.',
+                    colorText: Colors.white,
+                    snackPosition: SnackPosition.BOTTOM,
+                    duration: Duration(seconds: 8),
+                    mainButton: TextButton(
+                      child: Text('Восстановить',
+                          style: TextStyle(
+                              color: const Color.fromARGB(255, 201, 202, 202))),
+                      onPressed: () {
+                        if (removed.isNull) {
+                          return;
+                        }
+                        ctrl.requestList.insert(index, removed!);
+                        removed = null;
+                        if (Get.isSnackbarOpen) {
+                          Get.back();
+                        }
+                      },
+                    ));
               },
-              child: HomeRequestCard(
-                requestItem: homeController.homeRequestList[index],
+              child: GestureDetector(
+                onTap: () {
+                  // Get.toNamed(Routes.requestScreen, arguments: [
+                  //   {
+                  //     "id": homeController.requestList[index].id.toString(),
+                  //   }
+                  //]
+                  //);
+                },
+                child: HomeRequestCard(
+                  requestItem: ctrl.requestList[index],
+                ),
               ),
             );
           },

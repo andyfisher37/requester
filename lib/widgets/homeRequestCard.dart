@@ -25,7 +25,7 @@ class HomeRequestCard extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
-                color: Color(0xff2a2e3d),
+                color: Colors.blueGrey,
                 child: Row(
                   children: [
                     const SizedBox(

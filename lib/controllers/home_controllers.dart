@@ -25,16 +25,18 @@ class HomeController extends GetxController {
   late StatusRequest statusRequestOffer; */
 
   @override
-  void onInit() async {
+  void onInit() {
+    super.onInit();
     viewHomeRequestList();
-    viewHomeRestaurants();
-    viewHomeFoods();
-    viewHomeOffer();
+    // viewHomeRestaurants();
+    // viewHomeFoods();
+    // viewHomeOffer();
   }
 
   // print("=============================== Controller $response ");
 
   void viewHomeRequestList() async {
+    controller.getData();
     homeRequestList = controller.requestList.obs;
     update();
   }

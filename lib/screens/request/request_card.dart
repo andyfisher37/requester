@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:requester/controllers/request_controller.dart';
 import 'package:intl/intl.dart';
 import 'package:date_time_format/date_time_format.dart';
-import 'package:requester/screens/home_screen.dart';
+import 'package:requester/screens/home/home_screen.dart';
 import 'package:requester/utils/label.dart';
 
 class RequestCard extends StatelessWidget {

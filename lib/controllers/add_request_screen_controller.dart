@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
+import 'dart:io';
 
-class AddRequestScreenController {
+class AddRequestScreenController extends GetxController {
   var swithRequestCategoryValue = false.obs;
   var isNDSValue = false.obs;
 
@@ -11,9 +12,11 @@ class AddRequestScreenController {
         ? categoryValue = "срочная"
         : categoryValue = "обычная";
     // update db...
+    update();
   }
 
   void updateNDSValue() {
     // update db...
+    update();
   }
 }
