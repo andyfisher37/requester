@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_final_fields, unused_local_variable, use_build_context_synchronously, prefer_const_constructors, empty_catches, prefer_function_declarations_over_variables, non_constant_identifier_names, avoid_types_as_parameter_names
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:requester/screens/homepage.dart';
+import 'package:requester/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -33,7 +33,7 @@ class AuthClass {
           storeTokenAndData(userCredential);
           Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (builder) => HomePage()),
+              MaterialPageRoute(builder: (builder) => HomeScreen()),
               (route) => false);
         } catch (e) {
           final snackbar = SnackBar(content: Text(e.toString()));
@@ -116,7 +116,7 @@ class AuthClass {
       storeTokenAndData(userCredential);
       Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (builder) => HomePage()),
+          MaterialPageRoute(builder: (builder) => HomeScreen()),
           (route) => false);
       showSnackbar(context, "Logged In");
     } catch (e) {

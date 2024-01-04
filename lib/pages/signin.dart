@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sized_box_for_whitespace, sort_child_properties_last, avoid_unnecessary_containers, prefer_final_fields, unused_field, avoid_print
 
-import 'package:requester/screens/homepage.dart';
+import 'package:requester/screens/home/home_screen.dart';
 import 'package:requester/pages/signup.dart';
 import 'package:requester/service/google_auth.dart';
 import 'package:flutter/material.dart';
@@ -226,7 +226,7 @@ class _SignInPageState extends State<SignInPage> {
           // ignore: use_build_context_synchronously
           Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (builder) => HomePage()),
+              MaterialPageRoute(builder: (builder) => HomeScreen()),
               (route) => false);
         } catch (e) {
           final snackbar = SnackBar(content: Text(e.toString()));
