@@ -13,8 +13,9 @@ class RequestController extends GetxController {
 
   // Получение данных из коллекции и преобразование в список заявок
   Future<void> getData() async {
-    QuerySnapshot querySnapshot = await _collectionRef.get();
-    final data = querySnapshot.docs.map((doc) => doc.data()).toList();
+    requestList.clear();
+    QuerySnapshot qs = await _collectionRef.get();
+    final data = qs.docs.map((doc) => doc.data()).toList();
     if (data.isNotEmpty) {
       requestList =
           data.map((e) => Request.fromMap(e as Map<String, dynamic>)).toList();
@@ -39,8 +40,34 @@ class RequestController extends GetxController {
   // Добавление новой заявки
   Future<void> addRequest(Request request) async {
     requestList.add(request);
-    await _collectionRef.add(request);
+    await _collectionRef.add(request.toMap());
     getData();
+  }
+
+  // Удаление заявки по индексу в списке
+  Future<void> deleteRequest(int index) async {
+    QuerySnapshot qs = await _collectionRef.get();
+    qs.docs[index].reference.delete();
+    getData();
+  }
+
+  // Удаление заявки по ID
+  Future<void> deleteRequestID(String id) async {
+    QuerySnapshot qs = await _collectionRef.get();
+    int index = 0;
+    for (var element in qs.docs) {
+      if (element.get('id') == id) {
+        qs.docs[index].reference.delete();
+      } else {
+        index++;
+      }
+    }
+    getData();
+  }
+
+// Восстановлеие удаленной заявки
+  Future<void> restoreRequest(int index, Request req) async {
+    //index == null ? addRequest(req) : await _collectionRef.ins
   }
 
   Future<void> updateRequest(Request newValue, String uid, String reqID) async {

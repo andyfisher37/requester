@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_time_format/date_time_format.dart';
 import 'package:requester/controllers/add_request_screen_controller.dart';
+import 'package:requester/controllers/archive_controller.dart';
 import 'package:requester/controllers/home_controllers.dart';
 //import 'package:requester/custom/todoCard.dart';
 import 'package:requester/models/request.dart';
@@ -33,6 +34,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   AuthClass authClass = AuthClass();
   var ctrl = Get.find<RequestController>();
+  var arch = Get.find<ArchiveController>();
 
   // Обновление основного экрана на главной странице
   Future<Null> _refreshLocalGallery() async {
@@ -64,7 +66,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     SizedBox(
                       height: 10.h,
                     ),
-                    GetBuilder<HomeController>(builder: (_) => requestShow()),
+                    GetBuilder<RequestController>(
+                        builder: (_) => requestShow()),
                     SizedBox(
                       height: 10.h,
                     ),
@@ -379,7 +382,10 @@ class _HomeScreenState extends State<HomeScreen> {
               key: UniqueKey(),
               onDismissed: (_) {
                 Request? removed = ctrl.requestList[index];
-                ctrl.requestList.removeAt(index);
+                // Добавляем в архив
+                arch.addRequest(removed);
+                // Удаляем заявку...
+                ctrl.deleteRequestID(ctrl.requestList[index].id!);
                 Get.snackbar('ВНИМАНИЕ', 'Заявка "${removed.title}" удалена.',
                     colorText: Colors.white,
                     snackPosition: SnackPosition.BOTTOM,
@@ -389,10 +395,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           style: TextStyle(
                               color: const Color.fromARGB(255, 201, 202, 202))),
                       onPressed: () {
-                        if (removed.isNull) {
-                          return;
-                        }
-                        ctrl.requestList.insert(index, removed!);
+                        // Восстановление заявки
+                        ctrl.restoreRequest(index, removed!);
+                        // Удаляем из архива
+                        arch.deleteRequestID(removed!.id!);
                         removed = null;
                         if (Get.isSnackbarOpen) {
                           Get.back();

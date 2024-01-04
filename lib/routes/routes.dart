@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:requester/bindings/home_bindings.dart';
+import 'package:requester/bindings/request_bindings.dart';
 import 'package:requester/bindings/main_bindings.dart';
 import 'package:requester/bindings/onBoarding_home_bindings.dart';
 import 'package:requester/bindings/settings_bindings.dart';

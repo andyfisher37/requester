@@ -11,8 +11,11 @@ import 'package:requester/controllers/add_request_screen_controller.dart';
 import 'package:requester/controllers/request_controller.dart';
 import 'package:intl/intl.dart';
 import 'package:date_time_format/date_time_format.dart';
+import 'package:requester/models/request.dart';
 
 class AddRequestScreen extends StatelessWidget {
+  final _Form = GlobalKey<FormState>();
+
   TextEditingController _titleController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
   TextEditingController _summaController = TextEditingController();
@@ -25,6 +28,8 @@ class AddRequestScreen extends StatelessWidget {
   AddRequestScreen({super.key});
 
   final controller = Get.find<AddRequestScreenController>();
+  final ctrl = Get.find<RequestController>();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -38,6 +43,7 @@ class AddRequestScreen extends StatelessWidget {
           Color(0xff252041),
         ])),
         child: SingleChildScrollView(
+          key: _Form,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -125,7 +131,7 @@ class AddRequestScreen extends StatelessWidget {
                     const SizedBox(
                       height: 30,
                     ),
-                    createButton(context)
+                    createButton(context),
                   ],
                 ),
               )
@@ -136,44 +142,27 @@ class AddRequestScreen extends StatelessWidget {
     ));
   }
 
-// селектро НДС
-  Widget selectNDS(BuildContext ctx) {
-    String lead_text = "Без";
-    return Obx(
-      () => ListTile(
-        leading: Icon(
-          Icons.wrap_text_sharp,
-          color: Theme.of(ctx).textTheme.headline1!.color,
-        ),
-        title: Text(
-          '$lead_text НДС:',
-          style: TextStyle(
-            color: Theme.of(ctx).textTheme.labelMedium!.color,
-            fontSize: 14.sp,
-            fontWeight: FontWeight.normal,
-          ),
-        ),
-        trailing: SizedBox(
-          width: 70.w,
-          child: FlutterSwitch(
-            height: 22.0,
-            width: 55.0,
-            padding: 1.5,
-            toggleSize: 20.0,
-            borderRadius: 13.0,
-            activeColor: Colors.red,
-            inactiveColor: Colors.green,
-            value: controller.isNDSValue.value,
-            onToggle: (value) {
-              controller.updateNDSValue();
-              controller.isNDSValue.value = value;
-              controller.isNDSValue.isFalse
-                  ? lead_text = "С"
-                  : lead_text = "Без";
-              // print(value);
-            },
-          ),
-        ),
+  // Название заявки
+  Widget title() {
+    return Container(
+      height: 40,
+      width: Get.width,
+      decoration: BoxDecoration(
+        color: const Color(0xff2a2e3d),
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: TextFormField(
+        validator: (value) {
+          if (value!.isNotEmpty) return null;
+          return 'Введите название';
+        },
+        controller: _titleController,
+        style: const TextStyle(color: Colors.white, fontSize: 14),
+        decoration: const InputDecoration(
+            hintText: "Название заявки",
+            border: InputBorder.none,
+            hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
+            contentPadding: EdgeInsets.only(left: 20, right: 20, bottom: 5)),
       ),
     );
   }
@@ -220,49 +209,7 @@ class AddRequestScreen extends StatelessWidget {
     );
   }
 
-// Кнопка создания заявки...
-  Widget createButton(BuildContext ctx) {
-    return InkWell(
-      onTap: () {
-        FirebaseFirestore.instance.collection("Request").add({
-          'title': _titleController.text,
-          'category': controller.categoryValue,
-          'isExecute': false,
-          'description': _descriptionController.text,
-          'summa': double.parse(_summaController.text),
-          'stavka': double.parse(_stavkaController.text),
-          'inn': int.parse(_innController.text),
-          'isNDS': controller.isNDSValue.value,
-          'paydate': DateTime.now(),
-          'returndate': DateTime.parse(_returnDateController.text),
-          'userID': "userID",
-          'id': UniqueKey().toString(),
-        });
-        Navigator.pop(ctx);
-      },
-      child: Container(
-          height: 55,
-          width: Get.width,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            gradient: const LinearGradient(colors: [
-              Color(0xffff9999),
-              Color(0xffff5050),
-              Color(0xffff4500),
-            ]),
-          ),
-          child: const Center(
-            child: Text(
-              'Добавить заявку',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 15),
-            ),
-          )),
-    );
-  }
-
+  // Описание заявки (может быть пустым)
   Widget description() {
     return Container(
       height: 120,
@@ -284,6 +231,49 @@ class AddRequestScreen extends StatelessWidget {
     );
   }
 
+// селектро НДС
+  Widget selectNDS(BuildContext ctx) {
+    String lead_text = "Без";
+    return Obx(
+      () => ListTile(
+        leading: Icon(
+          Icons.wrap_text_sharp,
+          color: Theme.of(ctx).textTheme.headline1!.color,
+        ),
+        title: Text(
+          '$lead_text НДС:',
+          style: TextStyle(
+            color: Theme.of(ctx).textTheme.labelMedium!.color,
+            fontSize: 14.sp,
+            fontWeight: FontWeight.normal,
+          ),
+        ),
+        trailing: SizedBox(
+          width: 70.w,
+          child: FlutterSwitch(
+            height: 22.0,
+            width: 55.0,
+            padding: 1.5,
+            toggleSize: 20.0,
+            borderRadius: 13.0,
+            activeColor: Colors.red,
+            inactiveColor: Colors.green,
+            value: controller.isNDSValue.value,
+            onToggle: (value) {
+              controller.updateNDSValue();
+              controller.isNDSValue.value = value;
+              controller.isNDSValue.isFalse
+                  ? lead_text = "С"
+                  : lead_text = "Без";
+              // print(value);
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+// Сумма заявки (не может быть нулевой, только цифры)
   Widget summa() {
     return Container(
       height: 40,
@@ -292,7 +282,11 @@ class AddRequestScreen extends StatelessWidget {
         color: const Color(0xff2a2e3d),
         borderRadius: BorderRadius.circular(15),
       ),
-      child: TextField(
+      child: TextFormField(
+        validator: (value) {
+          if (value!.isNotEmpty && GetUtils.isNum(value)) return null;
+          return 'Введите сумму заявки';
+        },
         controller: _summaController,
         keyboardType: TextInputType.number,
         maxLines: 1,
@@ -307,6 +301,7 @@ class AddRequestScreen extends StatelessWidget {
     );
   }
 
+// Ставка заявки (число)
   Widget stavka() {
     return Container(
       height: 40,
@@ -315,41 +310,27 @@ class AddRequestScreen extends StatelessWidget {
         color: const Color(0xff2a2e3d),
         borderRadius: BorderRadius.circular(15),
       ),
-      child: TextField(
+      child: TextFormField(
         controller: _stavkaController,
         keyboardType: TextInputType.number,
         maxLines: 1,
         style: const TextStyle(
             color: Colors.white, fontSize: 18, letterSpacing: 3),
-        decoration: const InputDecoration(
-            hintText: "Ставка заявки",
-            border: InputBorder.none,
-            hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
-            contentPadding: EdgeInsets.only(left: 20, right: 20, bottom: 10)),
+        decoration: InputDecoration(
+          hintText: "Ставка заявки",
+          border: InputBorder.none,
+          hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
+          contentPadding: EdgeInsets.only(left: 20, right: 20, bottom: 10),
+        ),
+        validator: (value) {
+          if (value!.isNotEmpty && GetUtils.isNum(value)) return null;
+          return 'Введите числовое значение ставки';
+        },
       ),
     );
   }
 
-  Widget title() {
-    return Container(
-      height: 40,
-      width: Get.width,
-      decoration: BoxDecoration(
-        color: const Color(0xff2a2e3d),
-        borderRadius: BorderRadius.circular(15),
-      ),
-      child: TextFormField(
-        controller: _titleController,
-        style: const TextStyle(color: Colors.white, fontSize: 14),
-        decoration: const InputDecoration(
-            hintText: "Название заявки",
-            border: InputBorder.none,
-            hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
-            contentPadding: EdgeInsets.only(left: 20, right: 20, bottom: 5)),
-      ),
-    );
-  }
-
+// ИНН (Цифра 10 или 12 знаков)
   Widget innField() {
     return Container(
       height: 40,
@@ -361,6 +342,7 @@ class AddRequestScreen extends StatelessWidget {
       child: TextFormField(
         keyboardType: TextInputType.number,
         maxLines: 1,
+        maxLength: 12,
         controller: _innController,
         style: const TextStyle(color: Colors.white, fontSize: 14),
         decoration: const InputDecoration(
@@ -369,9 +351,11 @@ class AddRequestScreen extends StatelessWidget {
             hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
             contentPadding: EdgeInsets.only(left: 20, right: 20, bottom: 5)),
         validator: (inn) {
-          if (inn!.length != 12 || inn!.length != 10)
-            return "Неверный формат ИНН";
+          if ((inn!.length == 10 || inn.length == 12) &&
+              GetUtils.isNumericOnly(inn)) return null;
+          return "Неверный формат ИНН";
         },
+        autovalidateMode: AutovalidateMode.onUserInteraction,
       ),
     );
   }
@@ -389,6 +373,10 @@ class AddRequestScreen extends StatelessWidget {
         controller: _returnDateController,
         style: const TextStyle(color: Colors.white, fontSize: 14),
         maxLines: 1,
+        validator: (value) {
+          if (GetUtils.isDateTime(value!)) return null;
+          return 'Введите корректную дату';
+        },
         decoration: const InputDecoration(
             hintText: "дд:мм:гггг",
             border: InputBorder.none,
@@ -410,6 +398,52 @@ class AddRequestScreen extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+
+// Кнопка создания заявки...
+  Widget createButton(BuildContext ctx) {
+    return InkWell(
+      onTap: () {
+        if (_Form.currentState != null && _Form.currentState!.validate()) {
+          var item = Request(
+            title: _titleController.text,
+            category: controller.categoryValue,
+            isExecute: false,
+            description: _descriptionController.text,
+            summa: double.parse(_summaController.text),
+            stavka: double.parse(_stavkaController.text),
+            inn: int.parse(_innController.text),
+            isNDS: controller.isNDSValue.value,
+            paydate: DateTime.now(),
+            returndate: DateTime.parse(_returnDateController.text),
+            userID: "userID",
+            id: UniqueKey().toString(),
+          );
+          ctrl.addRequest(item);
+          Navigator.pop(ctx);
+        }
+      },
+      child: Container(
+          height: 55,
+          width: Get.width,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            gradient: const LinearGradient(colors: [
+              Color(0xffff9999),
+              Color(0xffff5050),
+              Color(0xffff4500),
+            ]),
+          ),
+          child: const Center(
+            child: Text(
+              'Добавить заявку',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 15),
+            ),
+          )),
     );
   }
 

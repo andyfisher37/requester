@@ -1,6 +1,7 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:requester/bindings/controller_binding.dart';
+import 'package:requester/controllers/archive_controller.dart';
 import 'package:requester/controllers/home_controllers.dart';
 import 'package:requester/controllers/main_controller.dart';
 import 'package:requester/controllers/request_controller.dart';
@@ -55,7 +56,8 @@ class MyApp extends StatelessWidget {
     Get.put(MainController());
     Get.put(RequestController());
     Get.put(HomeController());
-    
+    Get.put(ArchiveController());
+
     return ScreenUtilInit(
       designSize: const Size(375, 812),
       minTextAdapt: true,

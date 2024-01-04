@@ -4,8 +4,9 @@ import 'dart:io';
 class AddRequestScreenController extends GetxController {
   var swithRequestCategoryValue = false.obs;
   var isNDSValue = false.obs;
+  var stavka = 1.5.obs;
 
-  String categoryValue = "";
+  String categoryValue = "обычная";
 
   void updateCategoryValue() {
     swithRequestCategoryValue.isTrue
