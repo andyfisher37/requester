@@ -2,6 +2,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:requester/bindings/controller_binding.dart';
 import 'package:requester/controllers/archive_controller.dart';
+import 'package:requester/controllers/chat_controller.dart';
 import 'package:requester/controllers/home_controllers.dart';
 import 'package:requester/controllers/main_controller.dart';
 import 'package:requester/controllers/request_controller.dart';
@@ -52,6 +53,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //Firebase.initializeApp();
+    Get.put(ChatController());
     Get.put(SettingsController());
     Get.put(MainController());
     Get.put(RequestController());

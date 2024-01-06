@@ -4,16 +4,14 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:requester/controllers/connection_manager_controller.dart';
-
 //import '../../locale/locale.dart';
-
 //import 'package:requester/controllers/category_controller.dart';
 import 'package:requester/controllers/main_controller.dart';
-
 import 'package:requester/utils/theme.dart';
 
 class MainScreen extends StatelessWidget {
   MainScreen({super.key});
+
   final ConnectionManagerController _controller =
       Get.find<ConnectionManagerController>();
   //final controller = Get.find<MyLocaleController>();
@@ -69,6 +67,7 @@ class MainScreen extends StatelessWidget {
                       duration: Duration(milliseconds: 200),
                     ),
                     navBarStyle: NavBarStyle.style3,
+                    padding: NavBarPadding.only(top: 5),
                   ),
                 )
               : const Scaffold(

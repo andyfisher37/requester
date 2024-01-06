@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_ui/flutter_chat_ui.dart';
+import 'package:get/get.dart';
+import 'package:requester/controllers/chat_controller.dart';
 
 class ChatScreen extends StatelessWidget {
-  const ChatScreen({super.key});
+  ChatScreen({super.key});
+
+  final ctrl = Get.find<ChatController>();
 
   @override
   Widget build(BuildContext context) {
+    // Загружаем предыдущие сообщения...
+    ctrl.loadMessagesFromFile('assets/chat/messages.json');
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -48,7 +56,8 @@ class ChatScreen extends StatelessWidget {
                 )
               ],
               onChanged: (value) {
-                // ChatService().clear();
+                ctrl.messages.clear();
+                ctrl.update();
               },
             ),
           ),
@@ -80,17 +89,20 @@ class ChatScreen extends StatelessWidget {
           // ),
         ],
       ),
-      body: const SafeArea(
-        child: SingleChildScrollView(
-          physics: AlwaysScrollableScrollPhysics(),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Placeholder(),
-              Placeholder(),
-              Placeholder(),
-              Placeholder(),
-            ],
+      body: SafeArea(
+        child: GetBuilder<ChatController>(
+          builder: (_) => Chat(
+            theme: Get.isDarkMode
+                ? const DarkChatTheme()
+                : const DefaultChatTheme(),
+            messages: ctrl.messages,
+            onAttachmentPressed: ctrl.handleAttachmentPressed,
+            onMessageTap: ctrl.handleMessageTap,
+            onPreviewDataFetched: ctrl.handlePreviewDataFetched,
+            onSendPressed: ctrl.handleSendPressed,
+            showUserAvatars: true,
+            showUserNames: true,
+            user: ctrl.user,
           ),
         ),
       ),

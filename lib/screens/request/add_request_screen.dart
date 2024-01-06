@@ -13,129 +13,134 @@ import 'package:intl/intl.dart';
 import 'package:date_time_format/date_time_format.dart';
 import 'package:requester/models/request.dart';
 
-class AddRequestScreen extends StatelessWidget {
-  final _Form = GlobalKey<FormState>();
+class AddRequestScreen extends StatefulWidget {
+  const AddRequestScreen({super.key});
 
-  TextEditingController _titleController = TextEditingController();
-  TextEditingController _descriptionController = TextEditingController();
-  TextEditingController _summaController = TextEditingController();
-  TextEditingController _stavkaController = TextEditingController();
-  TextEditingController _returnDateController = TextEditingController();
-  TextEditingController _innController = TextEditingController();
+  @override
+  State<AddRequestScreen> createState() => _AddRequestScreenState();
+}
 
-  bool isNDSChecked = false;
+TextEditingController _titleController = TextEditingController();
+TextEditingController _descriptionController = TextEditingController();
+TextEditingController _summaController = TextEditingController();
+TextEditingController _stavkaController = TextEditingController();
+TextEditingController _returnDateController = TextEditingController();
+TextEditingController _innController = TextEditingController();
+bool isNDSChecked = false;
+final controller = Get.find<AddRequestScreenController>();
+final ctrl = Get.find<RequestController>();
 
-  AddRequestScreen({super.key});
-
-  final controller = Get.find<AddRequestScreenController>();
-  final ctrl = Get.find<RequestController>();
+class _AddRequestScreenState extends State<AddRequestScreen> {
+  final GlobalKey<FormState> _key = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-      body: Container(
-        height: Get.height,
-        width: Get.width,
-        decoration: const BoxDecoration(
-            gradient: LinearGradient(colors: [
-          Color(0xff1d1e26),
-          Color(0xff252041),
-        ])),
-        child: SingleChildScrollView(
-          key: _Form,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: const Icon(
-                  CupertinoIcons.arrow_left,
-                  color: Colors.white,
-                  size: 28,
+      body: Form(
+        key: _key,
+        child: Container(
+          height: Get.height,
+          width: Get.width,
+          decoration: const BoxDecoration(
+              gradient: LinearGradient(colors: [
+            Color(0xff1d1e26),
+            Color(0xff252041),
+          ])),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: const Icon(
+                    CupertinoIcons.arrow_left,
+                    color: Colors.white,
+                    size: 28,
+                  ),
                 ),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      "Добавление новой заявки:",
-                      style: TextStyle(
-                        letterSpacing: 1.5,
-                        color: Colors.white,
-                        fontSize: 27,
-                        fontFamily: 'Lobster',
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "Добавление новой заявки:",
+                        style: TextStyle(
+                          letterSpacing: 1.5,
+                          color: Colors.white,
+                          fontSize: 27,
+                          fontFamily: 'Lobster',
+                        ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    label("Название:"),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    title(),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    selectCategory(context),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    label("Краткое описание:"),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    description(),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    label("Сумма:"),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    summa(),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    label("Ставка:"),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    stavka(),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    label("ИНН:"),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    innField(),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    selectNDS(context),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    label("Дата возврата:"),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    returnDate(context),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    createButton(context),
-                  ],
-                ),
-              )
-            ],
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      label("Название:"),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      title(),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      selectCategory(context),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      label("Краткое описание:"),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      description(),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      label("Сумма:"),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      summa(),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      label("Ставка:"),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      stavka(),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      label("ИНН:"),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      innField(),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      selectNDS(context),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      label("Дата возврата:"),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      returnDate(context),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      createButton(context),
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -355,7 +360,7 @@ class AddRequestScreen extends StatelessWidget {
               GetUtils.isNumericOnly(inn)) return null;
           return "Неверный формат ИНН";
         },
-        autovalidateMode: AutovalidateMode.onUserInteraction,
+        //autovalidateMode: AutovalidateMode.onUserInteraction,
       ),
     );
   }
@@ -373,12 +378,8 @@ class AddRequestScreen extends StatelessWidget {
         controller: _returnDateController,
         style: const TextStyle(color: Colors.white, fontSize: 14),
         maxLines: 1,
-        validator: (value) {
-          if (GetUtils.isDateTime(value!)) return null;
-          return 'Введите корректную дату';
-        },
         decoration: const InputDecoration(
-            hintText: "дд:мм:гггг",
+            hintText: "ГГГГ-ММ-ДД",
             border: InputBorder.none,
             hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
             contentPadding: EdgeInsets.only(left: 20, right: 20, bottom: 5)),
@@ -397,6 +398,10 @@ class AddRequestScreen extends StatelessWidget {
             format: 'Y-m-d',
           );
         },
+        // validator: (value) {
+        //   if (GetUtils.isDateTime(value!)) return null;
+        //   return 'Введите корректную дату';
+        // },
       ),
     );
   }
@@ -405,7 +410,8 @@ class AddRequestScreen extends StatelessWidget {
   Widget createButton(BuildContext ctx) {
     return InkWell(
       onTap: () {
-        if (_Form.currentState != null && _Form.currentState!.validate()) {
+        // Если данные есть и валидные...
+        if (_key.currentState != null && _key.currentState!.validate()) {
           var item = Request(
             title: _titleController.text,
             category: controller.categoryValue,

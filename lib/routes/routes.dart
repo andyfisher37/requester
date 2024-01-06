@@ -1,8 +1,12 @@
 import 'package:get/get.dart';
+import 'package:requester/bindings/archive_bindings.dart';
+import 'package:requester/bindings/chat_bindings.dart';
+import 'package:requester/bindings/home_bindings.dart';
 import 'package:requester/bindings/request_bindings.dart';
 import 'package:requester/bindings/main_bindings.dart';
 import 'package:requester/bindings/onBoarding_home_bindings.dart';
 import 'package:requester/bindings/settings_bindings.dart';
+import 'package:requester/screens/chat/chat_screen.dart';
 import 'package:requester/screens/request/add_request_screen.dart';
 import 'package:requester/screens/home/home_screen.dart';
 import 'package:requester/screens/main_screen.dart';
@@ -11,7 +15,6 @@ import 'package:requester/screens/settings/settings_screen.dart';
 import '../screens/splash_screen.dart';
 
 class AppRoutes {
-  
   static const splashScreen = Routes.splashScreen;
 
   static final routes = [
@@ -19,12 +22,12 @@ class AppRoutes {
       name: Routes.splashScreen,
       page: () => const SplashScreen(),
     ),
-    /* GetPage(
-      name: Routes.loginScreen,
-      page: () => LoginScreen(),
-      binding: AuthBindings(),
-    ),
     GetPage(
+      name: Routes.chatScreen,
+      page: () => ChatScreen(),
+      binding: ChatBindings(),
+    ),
+    /*GetPage(
       name: Routes.signUpScreen,
       page: () => SignUpScreen(),
     ),
@@ -46,11 +49,11 @@ class AppRoutes {
         // AuthBindings(),
         // MyLocaleBindings(),
         MainBindings(),
-        // FavoritesBindings(),
+        ChatBindings(),
         OnBoardingHomeBinding(),
         SettingsBindings(),
-        // CategotyBindings(),
         HomeBindings(),
+        ArchiveBindings(),
       ],
     ),
     GetPage(
@@ -163,7 +166,7 @@ class Routes {
   static const newPwScreen = '/newPwScreen';
 
   static const mainScreen = '/mainScreen';
-  static const cartScreen = '/cartScreen';
+  static const chatScreen = '/chatScreen';
   static const splashScreen = '/splashScreen';
   static const homeScreen = '/homeScreen';
   static const searchScreen = '/searchScreen';

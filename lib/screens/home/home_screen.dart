@@ -149,7 +149,7 @@ class _HomeScreenState extends State<HomeScreen> {
               separatorBuilder: (_, __) => Divider(),
               itemCount: requestController.requestList.length),
         ), */
-        backgroundColor: Colors.black87,
+        //backgroundColor: getThemeDataFromBox(),
 
         /* appBar: AppBar(
           // leading: SvgPicture.asset(
@@ -379,8 +379,29 @@ class _HomeScreenState extends State<HomeScreen> {
           itemCount: ctrl.requestList.length,
           itemBuilder: (context, index) {
             return Dismissible(
+              confirmDismiss: (DismissDirection direction) async {
+                return await showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text("Подтверждение"),
+                      content: const Text("Удалить заявку?"),
+                      actions: <Widget>[
+                        OutlinedButton(
+                            onPressed: () => Navigator.of(context).pop(true),
+                            child: const Text("Да")),
+                        OutlinedButton(
+                          onPressed: () => Navigator.of(context).pop(false),
+                          child: const Text("Нет"),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
               key: UniqueKey(),
-              onDismissed: (_) {
+              direction: DismissDirection.endToStart,
+              onDismissed: (direction) {
                 Request? removed = ctrl.requestList[index];
                 // Добавляем в архив
                 arch.addRequest(removed);

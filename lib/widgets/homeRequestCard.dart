@@ -25,7 +25,7 @@ class HomeRequestCard extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
-                color: Colors.blueGrey,
+                color: Theme.of(context).cardColor,
                 child: Row(
                   children: [
                     const SizedBox(
@@ -35,11 +35,14 @@ class HomeRequestCard extends StatelessWidget {
                       height: 27,
                       width: 27,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.blue),
-                      child: const Icon(
+                        borderRadius: BorderRadius.circular(10),
+                        color: requestItem.isExecute
+                            ? Colors.red
+                            : Theme.of(context).cardColor,
+                      ),
+                      child: Icon(
                         Icons.edit_document,
-                        color: Colors.white,
+                        color: Theme.of(context).indicatorColor,
                       ),
                     ),
                     const SizedBox(
@@ -48,18 +51,18 @@ class HomeRequestCard extends StatelessWidget {
                     Expanded(
                       child: Text(
                         requestItem.title,
-                        style: const TextStyle(
+                        style: TextStyle(
                             fontSize: 16,
-                            color: Colors.white,
+                            color: Theme.of(context).indicatorColor,
                             letterSpacing: 1,
                             fontWeight: FontWeight.w500),
                       ),
                     ),
                     Text(
                       requestItem.returndate.format('d.m.Y'),
-                      style: const TextStyle(
+                      style: TextStyle(
                           fontSize: 15,
-                          color: Colors.white,
+                          color: Theme.of(context).indicatorColor,
                           fontWeight: FontWeight.w300),
                     ),
                     const SizedBox(
