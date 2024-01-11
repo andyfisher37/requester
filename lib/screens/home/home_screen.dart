@@ -11,7 +11,7 @@ import 'package:requester/screens/request/add_request_screen.dart';
 import 'package:requester/pages/signin.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 //import 'package:requester/pages/viewdata.dart';
-import 'package:requester/pages/viewReqDataPage.dart';
+//import 'package:requester/pages/viewReqDataPage.tmp';
 import 'package:requester/routes/routes.dart';
 import 'package:requester/service/google_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -22,7 +22,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:requester/controllers/request_controller.dart';
 import 'package:requester/screens/request/request_view.dart';
 import 'package:requester/widgets/appbarItem.dart';
-import 'package:requester/widgets/homeRequestCard.dart';
+import 'package:requester/screens/home/homeRequestCard.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -429,12 +429,11 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               child: GestureDetector(
                 onTap: () {
-                  // Get.toNamed(Routes.requestScreen, arguments: [
-                  //   {
-                  //     "id": homeController.requestList[index].id.toString(),
-                  //   }
-                  //]
-                  //);
+                  Get.toNamed(Routes.detailsRequestScreen, arguments: [
+                    {
+                      "id": ctrl.requestList[index].id.toString(),
+                    }
+                  ]);
                 },
                 child: HomeRequestCard(
                   requestItem: ctrl.requestList[index],

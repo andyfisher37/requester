@@ -10,7 +10,9 @@ class HomeRequestCard extends StatelessWidget {
     super.key,
     required this.requestItem,
   });
+
   final Request requestItem;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -36,21 +38,24 @@ class HomeRequestCard extends StatelessWidget {
                       width: 27,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        color: requestItem.isExecute
+                        color: requestItem.isExecute!
                             ? Colors.red
                             : Theme.of(context).cardColor,
                       ),
-                      child: Icon(
-                        Icons.edit_document,
-                        color: Theme.of(context).indicatorColor,
-                      ),
+                      child: requestItem.category == 'срочная'
+                          ? Image.asset('assets/images/cat_quick.png')
+                          : //Image.asset('assets/images/cat_ord.png'),
+                          Icon(
+                              Icons.edit_document,
+                              color: Theme.of(context).indicatorColor,
+                            ),
                     ),
                     const SizedBox(
                       width: 20,
                     ),
                     Expanded(
                       child: Text(
-                        requestItem.title,
+                        requestItem.title!,
                         style: TextStyle(
                             fontSize: 16,
                             color: Theme.of(context).indicatorColor,
@@ -59,7 +64,7 @@ class HomeRequestCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      requestItem.returndate.format('d.m.Y'),
+                      requestItem.returndate!.format('d.m.Y'),
                       style: TextStyle(
                           fontSize: 15,
                           color: Theme.of(context).indicatorColor,

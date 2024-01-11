@@ -66,7 +66,7 @@ class RequestView extends StatelessWidget {
                     ),
                     Expanded(
                       child: Text(
-                        controller.requestList[index].title,
+                        controller.requestList[index].title!,
                         style: const TextStyle(
                             fontSize: 16,
                             color: Colors.white,
@@ -75,7 +75,7 @@ class RequestView extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      controller.requestList[index].paydate.format('d.m.Y'),
+                      controller.requestList[index].paydate!.format('d.m.Y'),
                       style: const TextStyle(
                           fontSize: 15,
                           color: Colors.white,

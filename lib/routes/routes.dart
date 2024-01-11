@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:requester/bindings/archive_bindings.dart';
 import 'package:requester/bindings/chat_bindings.dart';
+import 'package:requester/bindings/details_request_bindings.dart';
 import 'package:requester/bindings/home_bindings.dart';
 import 'package:requester/bindings/request_bindings.dart';
 import 'package:requester/bindings/main_bindings.dart';
@@ -10,6 +11,7 @@ import 'package:requester/screens/chat/chat_screen.dart';
 import 'package:requester/screens/request/add_request_screen.dart';
 import 'package:requester/screens/home/home_screen.dart';
 import 'package:requester/screens/main_screen.dart';
+import 'package:requester/screens/request/details_request_screen.dart';
 import 'package:requester/screens/settings/settings_screen.dart';
 
 import '../screens/splash_screen.dart';
@@ -116,13 +118,12 @@ class AppRoutes {
     //   page: () => FoodScreen(),
     // ),
 
-    // GetPage(
-    //     name: Routes.productDetailsScreen,
-    //     page: () => ProductDetailsScreen(),
-    //     bindings: [
-    //       ProductDetailsBindings(),
-    //       FavoritesBindings(),
-    //     ]),
+    GetPage(
+        name: Routes.detailsRequestScreen,
+        page: () => DetailsRequestScreen(),
+        bindings: [
+          DetailsRequestBindings(),
+        ]),
     // GetPage(
     //   name: Routes.checkoutScreen,
     //   page: () => CheckoutScreen(),
@@ -171,7 +172,7 @@ class Routes {
   static const homeScreen = '/homeScreen';
   static const searchScreen = '/searchScreen';
   static const filterScreen = '/filterScreen';
-  static const favoritesScreen = '/favoritesScreen';
+  static const detailsRequestScreen = '/detailRequestScreen';
   static const settingsScreen = '/settingsScreen';
   static const profileSetting = '/profileSetting';
   static const restPasswordScreen = '/restPasswordScreen';
