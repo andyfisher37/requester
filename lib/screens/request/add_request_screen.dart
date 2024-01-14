@@ -71,8 +71,7 @@ class _AddRequestScreenState extends State<AddRequestScreen> {
                         "Добавление новой заявки:",
                         style: TextStyle(
                           letterSpacing: 1.5,
-                          color: Colors.white,
-                          fontSize: 27,
+                          fontSize: 24,
                           fontFamily: 'Lobster',
                         ),
                       ),
@@ -177,10 +176,15 @@ class _AddRequestScreenState extends State<AddRequestScreen> {
     String cat = "(обычная)";
     return Obx(
       () => ListTile(
-        leading: Icon(
-          Icons.speed_outlined,
-          color: Theme.of(ctx).textTheme.headline1!.color,
+        leading: Image.asset(
+          'assets/images/quick.png',
+          width: 40.h,
+          height: 40.h,
         ),
+        // Icon(
+        //   Icons.speed_outlined,
+        //   color: Theme.of(ctx).textTheme.headline1!.color,
+        // ),
         title: Text(
           'Категория: $cat',
           style: TextStyle(
@@ -241,10 +245,15 @@ class _AddRequestScreenState extends State<AddRequestScreen> {
     String lead_text = "Без";
     return Obx(
       () => ListTile(
-        leading: Icon(
-          Icons.wrap_text_sharp,
-          color: Theme.of(ctx).textTheme.headline1!.color,
+        leading: Image.asset(
+          'assets/images/nds.png',
+          width: 40.h,
+          height: 40.h,
         ),
+        // Icon(
+        //   Icons.wrap_text_sharp,
+        //   color: Theme.of(ctx).textTheme.headline1!.color,
+        // ),
         title: Text(
           '$lead_text НДС:',
           style: TextStyle(
@@ -270,7 +279,6 @@ class _AddRequestScreenState extends State<AddRequestScreen> {
               controller.isNDSValue.isFalse
                   ? lead_text = "С"
                   : lead_text = "Без";
-              // print(value);
             },
           ),
         ),

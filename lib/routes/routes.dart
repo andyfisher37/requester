@@ -150,6 +150,10 @@ class AppRoutes {
       name: Routes.addRequestScreen,
       page: () => AddRequestScreen(),
     ),
+    GetPage(
+      name: Routes.notificatonScreen,
+      page: () => AddRequestScreen(),
+    ),
     // GetPage(
     //   name: Routes.updatePassword,
     //   page: () => UpdatePassword(),

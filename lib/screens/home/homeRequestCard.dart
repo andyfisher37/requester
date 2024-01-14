@@ -40,7 +40,7 @@ class HomeRequestCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                         color: requestItem.isExecute!
                             ? Colors.red
-                            : Theme.of(context).cardColor,
+                            : Theme.of(context).textTheme.headline1!.color,
                       ),
                       child: requestItem.category == 'срочная'
                           ? Image.asset('assets/images/cat_quick.png')
@@ -58,7 +58,7 @@ class HomeRequestCard extends StatelessWidget {
                         requestItem.title!,
                         style: TextStyle(
                             fontSize: 16,
-                            color: Theme.of(context).indicatorColor,
+                            color: Theme.of(context).textTheme.headline1!.color,
                             letterSpacing: 1,
                             fontWeight: FontWeight.w500),
                       ),
@@ -67,7 +67,7 @@ class HomeRequestCard extends StatelessWidget {
                       requestItem.returndate!.format('d.m.Y'),
                       style: TextStyle(
                           fontSize: 15,
-                          color: Theme.of(context).indicatorColor,
+                          color: Theme.of(context).textTheme.headline1!.color,
                           fontWeight: FontWeight.w300),
                     ),
                     const SizedBox(

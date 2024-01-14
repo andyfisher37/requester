@@ -55,10 +55,10 @@ class MyApp extends StatelessWidget {
     //Firebase.initializeApp();
     Get.put(ChatController());
     Get.put(SettingsController());
+    Get.put(ArchiveController());
     Get.put(MainController());
     Get.put(RequestController());
     Get.put(HomeController());
-    Get.put(ArchiveController());
 
     return ScreenUtilInit(
       designSize: const Size(375, 812),

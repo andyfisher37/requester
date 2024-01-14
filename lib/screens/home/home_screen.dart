@@ -408,7 +408,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 // Удаляем заявку...
                 ctrl.deleteRequestID(ctrl.requestList[index].id!);
                 Get.snackbar('ВНИМАНИЕ', 'Заявка "${removed.title}" удалена.',
-                    colorText: Colors.white,
+                    colorText: Theme.of(context).textTheme.headline1!.color,
                     snackPosition: SnackPosition.BOTTOM,
                     duration: Duration(seconds: 8),
                     mainButton: TextButton(
@@ -446,26 +446,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
-
-/*TodoCard(
-                title: "Wake Up",
-                check: true,
-                time: "11 PM",
-                iconBgColor: Colors.white,
-                iconColor: Colors.black,
-                iconData: Icons.alarm,
-              );*/
-
-/*IconButton(
-          icon: Icon(
-            Icons.logout,
-          ),
-          onPressed: () async {
-            authClass.logOut(context);
-            Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (builder) => SignInPage()),
-                (route) => false);
-          },
-        ),*/

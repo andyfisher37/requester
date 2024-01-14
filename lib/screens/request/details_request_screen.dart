@@ -1,11 +1,10 @@
-import 'dart:ffi' as ffi;
-
+import 'package:date_time_format/date_time_format.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:requester/controllers/details_request_controller.dart';
 import 'package:requester/controllers/request_controller.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+//import 'package:cached_network_image/cached_network_image.dart';
 
 class DetailsRequestScreen extends GetView<DetailsRequestController> {
   DetailsRequestScreen({super.key});
@@ -33,10 +32,10 @@ class DetailsRequestScreen extends GetView<DetailsRequestController> {
                         children: [
                           Stack(
                             children: [
-                              ShowImage(
-                                imageUrl:
-                                    'https://source.unsplash.com/random/300x300',
-                              ),
+                              ShowBackImage(),
+                              //   imageUrl:
+                              //       'https://source.unsplash.com/random/300x300',
+                              // ),
                               ImageShadow(),
                             ],
                           ),
@@ -49,10 +48,10 @@ class DetailsRequestScreen extends GetView<DetailsRequestController> {
                                 ),
                                 BackIcon(),
                                 SizedBox(
-                                  height: ScreenUtil().screenHeight * 0.2,
+                                  height: ScreenUtil().screenHeight * 0.15,
                                 ),
                                 SizedBox(
-                                  height: ScreenUtil().screenHeight * 0.7,
+                                  height: ScreenUtil().screenHeight * 0.8,
                                   width: ScreenUtil().screenWidth,
                                   child: Stack(
                                     children: [
@@ -81,7 +80,9 @@ class DetailsRequestScreen extends GetView<DetailsRequestController> {
                                                 title:
                                                     ctrl.request.value.title!,
                                               ),
-
+                                              SizedBox(
+                                                height: 20.h,
+                                              ),
                                               SupTitle(
                                                 summa: ctrl.request.value.summa
                                                     .toString(),
@@ -99,7 +100,21 @@ class DetailsRequestScreen extends GetView<DetailsRequestController> {
                                                   desc: ctrl.request.value
                                                       .description!),
                                               SizedBox(
-                                                height: 10,
+                                                height: 20,
+                                              ),
+                                              innText(
+                                                  inn: ctrl.request.value.inn
+                                                      .toString()),
+                                              SizedBox(
+                                                height: 20,
+                                              ),
+                                              datesText(
+                                                  date_give: ctrl
+                                                      .request.value.paydate!,
+                                                  date_return: ctrl.request
+                                                      .value.returndate!),
+                                              SizedBox(
+                                                height: 20,
                                               ),
                                               Padding(
                                                 padding:
@@ -254,7 +269,7 @@ class AuthButton extends StatelessWidget {
       child: Text(
         text,
         style: TextStyle(
-          color: Colors.white,
+          color: Theme.of(context).textTheme.headline1!.color,
           fontSize: 20.sp,
           fontWeight: FontWeight.bold,
         ),
@@ -292,23 +307,28 @@ class BackIcon extends StatelessWidget {
   }
 }
 
-class ShowImage extends StatelessWidget {
-  const ShowImage({
+// Задний фон
+class ShowBackImage extends StatelessWidget {
+  const ShowBackImage({
     Key? key,
-    required this.imageUrl,
+    // required this.imageUrl,
   }) : super(key: key);
-  final String imageUrl;
+  // final String imageUrl;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.52,
-      width: MediaQuery.of(context).size.width,
-      child: CachedNetworkImage(
-        imageUrl: imageUrl,
-        fit: BoxFit.cover,
-      ),
-    );
+        height: MediaQuery.of(context).size.height * 0.52,
+        width: MediaQuery.of(context).size.width,
+        child: Image.asset(
+          'assets/images/back2.jpg',
+          fit: BoxFit.fitWidth,
+        )
+        // Вариант с загрузкой из инета...
+        // CachedNetworkImage(
+        // imageUrl: imageUrl,
+        // fit: BoxFit.cover),
+        );
   }
 }
 
@@ -353,6 +373,12 @@ class Description extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Text(
         'Описание: $desc',
+        style: TextStyle(
+          color: Theme.of(context).textTheme.headline1!.color,
+          letterSpacing: 1.5,
+          fontSize: 14,
+          fontFamily: 'Anton',
+        ),
       ),
     );
   }
@@ -371,13 +397,12 @@ class TitleText extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 20),
       child: Text(
         "Заявка от: $title",
-        style: Get.theme.textTheme.titleLarge,
-        //   TextStyle(
-        //       color: Get.theme.textTheme.,
-        //       fontSize: 20.sp,
-        //       fontFamily: 'Anton',
-        //       fontWeight: FontWeight.bold),
-        // ),
+        style: TextStyle(
+          color: Theme.of(context).textTheme.headline1!.color,
+          letterSpacing: 1.5,
+          fontSize: 24,
+          fontFamily: 'Lobster',
+        ),
       ),
     );
   }
@@ -397,28 +422,135 @@ class SupTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             "На сумму: $summa руб.",
+            style: TextStyle(
+              color: Theme.of(context).textTheme.headline1!.color,
+              letterSpacing: 1.5,
+              fontSize: 14,
+              fontFamily: 'Anton',
+            ),
           ),
-          const SizedBox(width: 2),
+          const SizedBox(height: 12),
           Text(
             "Ставка: $stavka",
+            style: TextStyle(
+              color: Theme.of(context).textTheme.headline1!.color,
+              letterSpacing: 1.5,
+              fontSize: 14,
+              fontFamily: 'Anton',
+            ),
           ),
-          const SizedBox(width: 2),
+          const SizedBox(height: 12),
           Row(
             children: [
+              Text(
+                'Категория срочности - $cat ',
+                style: TextStyle(
+                  color: Theme.of(context).textTheme.headline1!.color,
+                  letterSpacing: 1.5,
+                  fontSize: 14,
+                  fontFamily: 'Anton',
+                ),
+              ),
               cat == 'срочная'
                   ? Image.asset('assets/images/cat_quick.png')
                   : Image.asset('assets/images/cat_ord.png'),
-              const SizedBox(width: 5),
-              Text(
-                'Категория срочности - $cat ',
-              ),
+              const SizedBox(height: 12),
             ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class innText extends StatelessWidget {
+  const innText({
+    Key? key,
+    required this.inn,
+  }) : super(key: key);
+  final String inn;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20),
+      child: Text(
+        'ИНН: $inn',
+        style: TextStyle(
+          color: Theme.of(context).textTheme.headline1!.color,
+          letterSpacing: 1.5,
+          fontSize: 14,
+          fontFamily: 'Anton',
+        ),
+      ),
+    );
+  }
+}
+
+class datesText extends StatelessWidget {
+  const datesText({
+    Key? key,
+    required this.date_give,
+    required this.date_return,
+  }) : super(key: key);
+  final DateTime date_give;
+  final DateTime date_return;
+
+  @override
+  Widget build(BuildContext context) {
+    var d1 = DateTimeFormat.format(
+      date_give,
+      format: 'Y-m-d',
+    );
+    var d2 = DateTimeFormat.format(
+      date_return,
+      format: 'Y-m-d',
+    );
+    var d3 = date_return.difference(DateTime.now()).inDays;
+
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Дата заявки: $d1',
+            style: TextStyle(
+              color: Theme.of(context).textTheme.headline1!.color,
+              letterSpacing: 1.5,
+              fontSize: 14,
+              fontFamily: 'Anton',
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Text(
+            'Дата возврата: $d2',
+            style: TextStyle(
+              color: Theme.of(context).textTheme.headline1!.color,
+              letterSpacing: 1.5,
+              fontSize: 14,
+              fontFamily: 'Anton',
+            ),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          Text(
+            '(осталось $d3 дней)',
+            style: TextStyle(
+                color: Colors.red,
+                letterSpacing: 1.5,
+                fontSize: 16,
+                fontFamily: 'Lato',
+                fontWeight: FontWeight.bold),
           ),
         ],
       ),
