@@ -61,6 +61,7 @@ dependencies:
   path_provider: ^2.1.1
   flutter_chat_types: ^3.6.2
   cached_network_image: ^3.3.1
+  firebase_storage: ^11.6.0
 
 dev_dependencies:
   flutter_test:
@@ -91,7 +92,8 @@ flutter:
     - assets/images/
     - assets/fonts/
     - assets/chat/
-  #   - images/a_dot_ham.jpeg
+    - assets/images/google.svg
+    - assets/images/phone.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

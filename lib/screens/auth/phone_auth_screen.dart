@@ -2,24 +2,24 @@
 
 import 'dart:async';
 
-import 'package:requester/service/google_auth.dart';
+import 'package:requester/services/google_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/otp_field_style.dart';
 import 'package:otp_text_field/style.dart';
 
-class PhoneAuthPage extends StatefulWidget {
-  const PhoneAuthPage({Key? key}) : super(key: key);
+class PhoneAuthScreen extends StatefulWidget {
+  const PhoneAuthScreen({Key? key}) : super(key: key);
 
   @override
-  State<PhoneAuthPage> createState() => _PhoneAuthPageState();
+  State<PhoneAuthScreen> createState() => _PhoneAuthScreenState();
 }
 
-class _PhoneAuthPageState extends State<PhoneAuthPage> {
+class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
   @override
   int start = 30;
   bool wait = false;
-  String buttonName = "Send";
+  String buttonName = "Отправить";
   TextEditingController phoneController = TextEditingController();
   AuthClass authClass = AuthClass();
   String verificationIdFinal = "";
@@ -31,8 +31,10 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
         appBar: AppBar(
           backgroundColor: Colors.black87,
           title: Text(
-            'Sign Up',
-            style: TextStyle(color: Colors.white, fontSize: 24),
+            'Вход\nпо номеру телефона',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: Colors.white, fontFamily: 'Lobster', fontSize: 24),
           ),
           centerTitle: true,
         ),
@@ -59,7 +61,7 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
                     ),
                   ),
                   Text(
-                    'Enter 6 Digit Code',
+                    'Введите код из СМС',
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 15,
@@ -86,7 +88,7 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
                 text: TextSpan(
                   children: [
                     TextSpan(
-                      text: "Send Code Again In ",
+                      text: "Отправить код повторно ",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 15,
@@ -100,7 +102,7 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
                           fontWeight: FontWeight.bold),
                     ),
                     TextSpan(
-                      text: " sec",
+                      text: " сек.",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 15,
@@ -133,7 +135,7 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
                   ),
                   child: Center(
                     child: Text(
-                      'Confirm',
+                      'Подтвердить',
                       style: TextStyle(
                           color: Colors.white, fontWeight: FontWeight.bold),
                     ),
@@ -197,12 +199,13 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
         borderRadius: BorderRadius.circular(15),
       ),
       child: TextFormField(
+        keyboardType: TextInputType.phone,
         style: TextStyle(color: Colors.white),
         controller: phoneController,
         decoration: InputDecoration(
           border: InputBorder.none,
-          hintText: "Enter Your Phone Number",
-          hintStyle: TextStyle(color: Colors.white54, fontSize: 17),
+          hintText: "Введите свой номер телефона",
+          hintStyle: TextStyle(color: Colors.white54, fontSize: 15),
           contentPadding:
               const EdgeInsets.symmetric(vertical: 19, horizontal: 5),
           prefixIcon: Padding(
@@ -219,7 +222,7 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
                 : () async {
                     setState(() {
                       wait = true;
-                      buttonName = "Resend";
+                      buttonName = "Повторить";
                     });
                     await authClass.verifyPhoneNumber(
                         "+7 ${phoneController.text}", context, setData);

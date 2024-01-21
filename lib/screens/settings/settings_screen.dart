@@ -1,7 +1,3 @@
-// ignore_for_file: prefer_const_constructors, sort_child_properties_last
-
-// import 'package:ecommerce_app/routes/routes.dart';
-// import 'package:ecommerce_app/view/widgets/settings/rowWithSwitchTheme.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,16 +7,10 @@ import 'package:requester/controllers/settings_controller.dart';
 import 'package:requester/controllers/theme_controller.dart';
 import 'package:requester/routes/routes.dart';
 import 'package:requester/utils/shared_prefs.dart';
-
-// import '../../../logic/controllers/auth_controllers.dart';
+import 'package:requester/utils/firebase_constants.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:async';
 import 'package:requester/utils/theme.dart';
-// import '../../widgets/settings/csutomCard.dart';
-// import '../../widgets/settings/dropdownMenuItemLanguage.dart';
-// import '../../widgets/settings/rowWithSwitchNotification.dart';
-// import '../../widgets/settings/rowWithoutSwitchPassword.dart';
-// import '../../widgets/settings/rowWithoutSwitchProfile.dart';
-// import '../../widgets/settings/userDetails.dart';
-// import '../../widgets/textWithFont.dart';
 import 'dart:math' as math;
 
 class SettingsScreen extends GetView<SettingsController> {
@@ -46,6 +36,7 @@ class SettingsScreen extends GetView<SettingsController> {
                 ),
                 items: [
                   DropdownMenuItem(
+                    onTap: () => authController.signOut(),
                     value: 'logout',
                     child: Row(
                       children: [
@@ -95,6 +86,7 @@ class SettingsScreen extends GetView<SettingsController> {
                 thickness: 2,
               ),
               SizedBox(height: 20.h),
+              // Редактировать профиль пользователя
               RowWithoutSwitchProfile(
                 text: 'Профиль пользователя',
                 icon: Icons.person_outline,
@@ -102,6 +94,7 @@ class SettingsScreen extends GetView<SettingsController> {
                 sizedBoxWidth: 120.w,
               ),
               SizedBox(height: 20.h),
+              // Смена пароля
               RowWithoutSwitchPassword(
                 text: 'Сменить пароль',
                 icon: Icons.lock_outline,
@@ -109,21 +102,24 @@ class SettingsScreen extends GetView<SettingsController> {
                 sizedBoxWidth: Get.locale!.languageCode == 'en' ? 100.w : 124.w,
               ),
               SizedBox(height: 20.h),
+              // Режим уведомлений
               RowWithSwitchNotification(
                 text: 'Уведомления',
                 icon: Icons.notifications_none_outlined,
                 paddingSize: 110.w,
               ),
               SizedBox(height: 20.h),
+              // Смена темы оформления
               RowWithSwitchTheme(
                 text: 'Выбор темы',
                 icon: Icons.color_lens_outlined,
                 paddingSize: 100.w,
               ),
               SizedBox(height: 20.h),
+              // Выход из профиля
               GestureDetector(
                 onTap: () {
-                  ctrl.logout();
+                  authController.signOut();
                 },
                 child: ListTile(
                   leading: Transform.rotate(
@@ -151,6 +147,7 @@ class SettingsScreen extends GetView<SettingsController> {
   }
 }
 
+// Редактировать профиль пользователя
 class RowWithoutSwitchProfile extends StatelessWidget {
   const RowWithoutSwitchProfile({
     super.key,
@@ -196,6 +193,7 @@ class RowWithoutSwitchProfile extends StatelessWidget {
   }
 }
 
+// Смена пароля
 class RowWithoutSwitchPassword extends StatelessWidget {
   const RowWithoutSwitchPassword({
     super.key,
@@ -245,6 +243,7 @@ class RowWithoutSwitchPassword extends StatelessWidget {
   }
 }
 
+// Режим уведомлений
 class RowWithSwitchNotification extends StatelessWidget {
   const RowWithSwitchNotification({
     Key? key,
@@ -288,6 +287,7 @@ class RowWithSwitchNotification extends StatelessWidget {
   }
 }
 
+// Смена темы оформления
 class RowWithSwitchTheme extends StatelessWidget {
   RowWithSwitchTheme({
     Key? key,
@@ -339,40 +339,47 @@ class RowWithSwitchTheme extends StatelessWidget {
   }
 }
 
+// Инфоормация о пользователе
 class UserDetails extends StatelessWidget {
   UserDetails({
     Key? key,
     required this.settingsController,
   }) : super(key: key);
+
   final SettingsController settingsController;
+  final ImagePicker _picker = ImagePicker();
+
   @override
   Widget build(BuildContext context) {
     return Obx(
       () => Row(
         children: [
-          CircleAvatar(
-            radius: 30,
-            backgroundColor: Get.isDarkMode ? Colors.white : Colors.blue,
-            child: ClipOval(
-              child: settingsController.image.value == 'null'
-                  ? Image.asset(
-                      'assets/icons/person.png',
-                      fit: BoxFit.cover,
-                    )
-                  : CachedNetworkImage(
-                      imageUrl: settingsController.image.value.contains('http')
-                          ? settingsController.image.value
-                          : '${settingsController.image.value}',
-                      placeholder: (context, url) =>
-                          CircularProgressIndicator(),
-                      errorWidget: (context, url, error) => Image.asset(
+          GestureDetector(
+            onTap: () {
+              _avatarPressed(ImageSource.camera, context: context);
+            },
+            child: CircleAvatar(
+              radius: 30,
+              backgroundColor: Get.isDarkMode ? Colors.white : Colors.blue,
+              child: ClipOval(
+                child: settingsController.photoURL.value == 'null'
+                    ? Image.asset(
                         'assets/icons/person.png',
                         fit: BoxFit.cover,
+                      )
+                    : CachedNetworkImage(
+                        imageUrl: settingsController.photoURL.value,
+                        placeholder: (context, url) =>
+                            CircularProgressIndicator(),
+                        errorWidget: (context, url, error) => Image.asset(
+                          'assets/icons/person.png',
+                          fit: BoxFit.cover,
+                        ),
+                        width: 100,
+                        height: 100,
+                        fit: BoxFit.fill,
                       ),
-                      width: 100,
-                      height: 100,
-                      fit: BoxFit.fill,
-                    ),
+              ),
             ),
           ),
           SizedBox(
@@ -382,9 +389,11 @@ class UserDetails extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                SharedPrefs.instance.getString('token') == null
+                auth.currentUser == null
+                    //SharedPrefs.instance.getString('token') == null
                     ? 'unknown'
-                    : settingsController.name.value,
+                    : auth.currentUser!.displayName
+                        .toString(), //settingsController.name.value,
                 style: TextStyle(
                   color: Theme.of(context).textTheme.headline1!.color,
                   fontSize: 18.sp,
@@ -392,9 +401,11 @@ class UserDetails extends StatelessWidget {
                 ),
               ),
               Text(
-                SharedPrefs.instance.getString('token') == null
+                auth.currentUser == null
+                    //SharedPrefs.instance.getString('token') == null
                     ? 'unknown'
-                    : settingsController.email.value,
+                    : auth.currentUser!.email
+                        .toString(), //settingsController.email.value,
                 style: TextStyle(
                   color: Theme.of(context).textTheme.headline1!.color,
                   fontSize: 13.sp,
@@ -406,5 +417,19 @@ class UserDetails extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Future<void> _avatarPressed(
+    ImageSource source, {
+    required BuildContext context,
+  }) async {
+    if (context.mounted) {
+      try {
+        final XFile? pickedFile = await _picker.pickImage(source: source);
+        settingsController.updateUserPhoto(pickedFile!);
+      } catch (e) {
+        print(e);
+      }
+    }
   }
 }

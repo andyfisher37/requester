@@ -7,6 +7,8 @@ import 'package:requester/bindings/request_bindings.dart';
 import 'package:requester/bindings/main_bindings.dart';
 import 'package:requester/bindings/onBoarding_home_bindings.dart';
 import 'package:requester/bindings/settings_bindings.dart';
+import 'package:requester/screens/auth/login_screen.dart';
+import 'package:requester/screens/auth/register_screen.dart';
 import 'package:requester/screens/chat/chat_screen.dart';
 import 'package:requester/screens/request/add_request_screen.dart';
 import 'package:requester/screens/home/home_screen.dart';
@@ -29,21 +31,19 @@ class AppRoutes {
       page: () => ChatScreen(),
       binding: ChatBindings(),
     ),
-    /*GetPage(
-      name: Routes.signUpScreen,
-      page: () => SignUpScreen(),
+    GetPage(
+      name: Routes.registerScreen,
+      page: () => RegisterScreen(),
     ),
     GetPage(
-        name: Routes.onBoardingScreen,
-        page: () => OnBoardingScreen(),
-        bindings: [
-          OnBoardingBinding(),
-        ]),
-    GetPage(
-      name: Routes.forgotPasswordScreen,
-      page: () => ForgotPasswordScreen(),
-      binding: AuthBindings(),
-    ), */
+        name: Routes.loginScreen,
+        page: () => LoginScreen(),
+        ),
+    // GetPage(
+    //   name: Routes.forgotPasswordScreen,
+    //   page: () => ForgotPasswordScreen(),
+    //   binding: AuthBindings(),
+    // ),
     GetPage(
       name: Routes.mainScreen,
       page: () => MainScreen(),
@@ -165,7 +165,7 @@ class Routes {
   static const onBoardingScreen = '/onBoardingScreen';
 
   static const loginScreen = '/loginScreen';
-  static const signUpScreen = '/signUpScreen';
+  static const registerScreen = '/registerScreen';
   static const forgotPasswordScreen = '/forgotPasswordScreen';
   static const sendOTPScreen = '/sendOTPScreen';
   static const newPwScreen = '/newPwScreen';

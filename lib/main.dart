@@ -2,7 +2,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:requester/bindings/controller_binding.dart';
 import 'package:requester/controllers/archive_controller.dart';
+import 'package:requester/controllers/auth_controller.dart';
 import 'package:requester/controllers/chat_controller.dart';
+import 'package:requester/controllers/connection_manager_controller.dart';
 import 'package:requester/controllers/home_controllers.dart';
 import 'package:requester/controllers/main_controller.dart';
 import 'package:requester/controllers/request_controller.dart';
@@ -15,10 +17,11 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:requester/utils/shared_prefs.dart';
 import 'package:requester/utils/theme.dart';
+import 'package:requester/utils/firebase_constants.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await firebaseInitialization.then((value) => Get.put(AuthController()));
   await SharedPrefs.init();
   runApp(const MyApp());
 }
@@ -26,33 +29,10 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-//   @override
-
-// }
-
-// class _MyAppState extends State<MyApp> {
-//   Widget currentPage = SignUpPage();
-//   AuthClass authClass = AuthClass();
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     checkLogin();
-//   }
-
-//   void checkLogin() async {
-//     String? token = await authClass.getToken();
-
-//     if (token != null) {
-//       setState(() {
-//         currentPage = HomePage();
-//       });
-//     }
-//   }
-
   @override
   Widget build(BuildContext context) {
     //Firebase.initializeApp();
+    Get.put(ConnectionManagerController());
     Get.put(ChatController());
     Get.put(SettingsController());
     Get.put(ArchiveController());

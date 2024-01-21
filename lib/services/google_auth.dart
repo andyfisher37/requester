@@ -82,12 +82,12 @@ class AuthClass {
     };
     PhoneCodeSent codeSent =
         (String verificationID, [int? forceResendingToken]) {
-      showSnackbar(context, "Code sent on the phone number");
+      showSnackbar(context, "Код подтверждения отправлен на указанный телефон");
       setData(verificationID);
     };
     PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout =
         (String verificationID) {
-      showSnackbar(context, "Timeout");
+      showSnackbar(context, "Время ожидания вышло...");
     };
     try {
       await auth.verifyPhoneNumber(
@@ -118,7 +118,7 @@ class AuthClass {
           context,
           MaterialPageRoute(builder: (builder) => HomeScreen()),
           (route) => false);
-      showSnackbar(context, "Logged In");
+      showSnackbar(context, "Вход в систему");
     } catch (e) {
       showSnackbar(context, e.toString());
     }

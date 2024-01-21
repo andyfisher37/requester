@@ -1,11 +1,15 @@
 import 'dart:io';
 
+import 'package:firebase_core/firebase_core.dart';
+import 'package:path_provider/path_provider.dart';
+
 import 'package:requester/main.dart';
 import 'package:requester/routes/routes.dart';
 // import 'package:ecommerce_app/utils/my_string.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:requester/utils/firebase_constants.dart';
 
 // import '../../services/auth_api.dart';
 // import '../../services/baseAPI.dart';
@@ -16,10 +20,12 @@ import '../../utils/shared_prefs.dart';
 // import '../../view/widgets/get_snackbar.dart';
 
 class SettingsController extends GetxController {
+  var photoURL = ''.obs;
+
   var swithchThemwValue = false.obs;
   var langLocal = Get.deviceLocale?.languageCode.obs;
   var name = ''.obs;
-  var image = ''.obs;
+
   var email = ''.obs;
   var phone = ''.obs;
   var nameFromTextFild = ''.obs;
@@ -45,11 +51,11 @@ class SettingsController extends GetxController {
   void onInit() {
     super.onInit();
     // print(shared.getString('image'));
-    var x = shared.getString('image') == 'null';
+    //var x = shared.getString('image') == 'null';
     name.value = shared.getString('name') ?? 'null';
     email.value = shared.getString('email') ?? 'null';
     phone.value = shared.getString('phone_number') ?? 'null';
-    image.value = x ? 'null' : '${shared.getString('image')}';
+    //image.value = x ? 'null' : '${shared.getString('image')}';
     // print(x);
     swithchThemwValue.value = Get.isDarkMode ? true : false;
   }
@@ -65,7 +71,7 @@ class SettingsController extends GetxController {
 
   void save() async {
     if (file.path != '') {
-     /*  ServicesApi.updateProfile(
+      /*  ServicesApi.updateProfile(
               file: file,
               name: nameFromTextFild.value == ''
                   ? name.value
@@ -110,9 +116,14 @@ class SettingsController extends GetxController {
     update(); */
   }
 
-  void logout() {
-    // AuthApi().logout();
-    Get.toNamed(Routes.loginScreen);
-    update();
+  Future<void> updateUserPhoto(XFile pickedFile) async {
+    final photoRef = storage.ref("${auth.currentUser!.uid}/${pickedFile.name}");
+    File file = File(pickedFile.path);
+    try {
+      await photoRef.putFile(file);
+    } on FirebaseException catch (e) {
+      //print(e);
+    }
+    photoRef.getDownloadURL().then((value) => {photoURL.value = value});
   }
 }

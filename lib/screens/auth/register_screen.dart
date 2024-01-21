@@ -1,22 +1,22 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sized_box_for_whitespace, sort_child_properties_last, avoid_unnecessary_containers, prefer_final_fields, unused_field, avoid_print
 
 import 'package:requester/screens/home/home_screen.dart';
-import 'package:requester/pages/phoneauthpage.dart';
-import 'package:requester/pages/signin.dart';
-import 'package:requester/service/google_auth.dart';
+import 'package:requester/screens/auth/phone_auth_screen.dart';
+import 'package:requester/screens/auth/login_screen.dart';
+import 'package:requester/services/google_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
+import 'package:requester/utils/firebase_constants.dart';
 
-class SignUpPage extends StatefulWidget {
-  const SignUpPage({Key? key}) : super(key: key);
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
 
   @override
-  State<SignUpPage> createState() => _SignUpPageState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
-  firebase_auth.FirebaseAuth firebaseAuth = firebase_auth.FirebaseAuth.instance;
+class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   bool circular = false;
@@ -32,24 +32,32 @@ class _SignUpPageState extends State<SignUpPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Sign Up',
+                  textAlign: TextAlign.center,
+                  'Регистрация\nнового пользователя',
                   style: TextStyle(
                       color: Colors.white,
-                      fontSize: 35,
-                      fontWeight: FontWeight.bold),
+                      fontSize: 30,
+                      fontFamily: 'Lobster',
+                      fontWeight: FontWeight.w500),
+                ),
+                Divider(
+                  color: Colors.grey.shade800,
+                  thickness: 2,
+                  endIndent: 35,
+                  indent: 30,
                 ),
                 SizedBox(
-                  height: 70,
+                  height: 30,
                 ),
-                textField("E-mail", _emailController, false),
+                textField("Почта (e-mail)", _emailController, false),
                 SizedBox(
                   height: 20,
                 ),
-                textField("Password", _passwordController, true),
+                textField("Пароль", _passwordController, true),
                 SizedBox(
                   height: 20,
                 ),
-                textFieldRepeat("Repeat Password", true),
+                textFieldRepeat("Повторите пароль", true),
                 SizedBox(
                   height: 20,
                 ),
@@ -58,7 +66,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   height: 10,
                 ),
                 Text(
-                  'Or',
+                  'или',
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 15,
@@ -71,8 +79,10 @@ class _SignUpPageState extends State<SignUpPage> {
                   await authClass.googleSignIn(context);
                 }),
                 phoneContainer(() {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (builder) => PhoneAuthPage()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (builder) => PhoneAuthScreen()));
                 }),
                 SizedBox(
                   height: 20,
@@ -81,7 +91,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'If you already have an Account,',
+                      'Если у Вас уже есть регистрация,',
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 15,
@@ -96,14 +106,14 @@ class _SignUpPageState extends State<SignUpPage> {
                         Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
-                                builder: (builder) => SignInPage()),
+                                builder: (builder) => LoginScreen()),
                             (route) => false);
                       },
                       child: Text(
-                        'Login,',
+                        'Войти,',
                         style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15,
+                            color: Colors.red,
+                            fontSize: 16,
                             fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -196,14 +206,14 @@ class _SignUpPageState extends State<SignUpPage> {
             children: [
               SvgPicture.asset(
                 "assets/images/google.svg",
-                height: 25,
-                width: 20,
+                height: 30,
+                width: 25,
               ),
               SizedBox(
                 width: 15,
               ),
               Text(
-                'Continue with Google',
+                'Войти с учетной записью Google',
                 style: TextStyle(color: Colors.white, fontSize: 16),
               ),
             ],
@@ -228,11 +238,16 @@ class _SignUpPageState extends State<SignUpPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              SvgPicture.asset(
+                "assets/images/phone.svg",
+                height: 30,
+                width: 25,
+              ),
               SizedBox(
                 width: 15,
               ),
               Text(
-                'Continue with Phone Number',
+                'Войти по номеру телефона',
                 style: TextStyle(color: Colors.white, fontSize: 16),
               ),
             ],
@@ -250,11 +265,10 @@ class _SignUpPageState extends State<SignUpPage> {
           circular = true;
         });
         try {
-          firebase_auth.UserCredential userCredential =
-              await firebaseAuth.createUserWithEmailAndPassword(
-                  email: _emailController.text,
-                  password: _passwordController.text);
-          print(userCredential.user!.email);
+          firebase_auth.UserCredential? userCredential =
+              await authController.register(_emailController.text.trim(),
+                  _passwordController.text.trim());
+          print(userCredential!.user!.email);
           setState(() {
             circular = false;
           });
@@ -278,7 +292,7 @@ class _SignUpPageState extends State<SignUpPage> {
           child: circular
               ? CircularProgressIndicator()
               : Text(
-                  "Sign Up",
+                  "Регистрация",
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 20,
