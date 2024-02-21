@@ -8,6 +8,6 @@ A Flutter pet-project to track requests for cash exchange and their execution, w
   - firebase (data storage, authorization)
   - flutter_chat_ui (working with chat)
 
-## Initial commit video
+## Current state of project video
 <img align="left" width="200" height="400" src="screenshot.gif">
 
