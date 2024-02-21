@@ -5,6 +5,7 @@ import 'package:requester/bindings/details_request_bindings.dart';
 import 'package:requester/bindings/home_bindings.dart';
 import 'package:requester/bindings/main_bindings.dart';
 import 'package:requester/bindings/onBoarding_home_bindings.dart';
+import 'package:requester/bindings/search_bindings.dart';
 import 'package:requester/bindings/settings_bindings.dart';
 import 'package:requester/screens/auth/login_screen.dart';
 import 'package:requester/screens/auth/register_screen.dart';
@@ -13,6 +14,7 @@ import 'package:requester/screens/request/add_request_screen.dart';
 import 'package:requester/screens/home/home_screen.dart';
 import 'package:requester/screens/main_screen.dart';
 import 'package:requester/screens/request/details_request_screen.dart';
+import 'package:requester/screens/search/search_screen.dart';
 import 'package:requester/screens/settings/settings_screen.dart';
 
 import '../screens/splash_screen.dart';
@@ -64,6 +66,12 @@ class AppRoutes {
         page: () => DetailsRequestScreen(),
         bindings: [
           DetailsRequestBindings(),
+        ]),
+        GetPage(
+        name: Routes.searchScreen,
+        page: () => SearchScreen(),
+        bindings: [
+          SearchBindings(),
         ]),
     GetPage(
       name: Routes.addRequestScreen,

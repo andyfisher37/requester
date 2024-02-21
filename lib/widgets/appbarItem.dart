@@ -18,7 +18,7 @@ class AppBarItem extends StatelessWidget {
         Expanded(
           child: GestureDetector(
             onTap: (() {
-              //Get.toNamed(Routes.searchScreen);
+              Get.toNamed(Routes.searchScreen);
             }),
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
