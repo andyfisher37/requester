@@ -11,10 +11,7 @@ import 'package:requester/controllers/request_controller.dart';
 import 'package:requester/controllers/settings_controller.dart';
 import 'package:requester/controllers/theme_controller.dart';
 import 'package:requester/routes/routes.dart';
-//import 'package:requester/pages/signup.dart';
-//import 'package:requester/service/google_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:requester/utils/shared_prefs.dart';
 import 'package:requester/utils/theme.dart';
 import 'package:requester/utils/firebase_constants.dart';
@@ -31,7 +28,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //Firebase.initializeApp();
     Get.put(ConnectionManagerController());
     Get.put(ChatController());
     Get.put(SettingsController());

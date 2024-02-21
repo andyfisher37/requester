@@ -3,7 +3,6 @@ import 'package:requester/bindings/archive_bindings.dart';
 import 'package:requester/bindings/chat_bindings.dart';
 import 'package:requester/bindings/details_request_bindings.dart';
 import 'package:requester/bindings/home_bindings.dart';
-import 'package:requester/bindings/request_bindings.dart';
 import 'package:requester/bindings/main_bindings.dart';
 import 'package:requester/bindings/onBoarding_home_bindings.dart';
 import 'package:requester/bindings/settings_bindings.dart';
@@ -39,17 +38,10 @@ class AppRoutes {
         name: Routes.loginScreen,
         page: () => LoginScreen(),
         ),
-    // GetPage(
-    //   name: Routes.forgotPasswordScreen,
-    //   page: () => ForgotPasswordScreen(),
-    //   binding: AuthBindings(),
-    // ),
     GetPage(
       name: Routes.mainScreen,
       page: () => MainScreen(),
       bindings: [
-        // AuthBindings(),
-        // MyLocaleBindings(),
         MainBindings(),
         ChatBindings(),
         OnBoardingHomeBinding(),
@@ -63,89 +55,16 @@ class AppRoutes {
       page: () => HomeScreen(),
       binding: OnBoardingHomeBinding(),
     ),
-    // GetPage(
-    //   name: Routes.sendOTPScreen,
-    //   page: () => SendOTPScreen(),
-    //   binding: AuthBindings(),
-    // ),
-    // GetPage(
-    //   name: Routes.newPwScreen,
-    //   page: () => NewPwScreen(),
-    // ),
-    // GetPage(
-    //   name: Routes.cartScreen,
-    //   page: () => CartScreen(),
-    //   // binding:  CartBindings(),
-    // ),
-    // GetPage(
-    //     name: Routes.searchScreen,
-    //     page: () => SearchScreen(),
-    //     binding: SearchBindings()),
-    // GetPage(
-    //   name: Routes.filterScreen,
-    //   page: () => FilterScreen(),
-    // ),
     GetPage(
         name: Routes.settingsScreen,
         page: () => SettingsScreen(),
         binding: SettingsBindings()),
-    // GetPage(
-    //     name: Routes.profileSetting,
-    //     page: () => ProfileSetting(),
-    //     binding: ProfileSettingBinding()),
-    // GetPage(
-    //   name: Routes.restPasswordScreen,
-    //   page: () => RestPasswordScreen(),
-    // ),
-    // GetPage(
-    //   name: Routes.notificatonScreen,
-    //   page: () => NotificatonScreen(),
-    // ),
-    // GetPage(
-    //     name: Routes.categoryScreen,
-    //     page: () => CategoryScreen(),
-    //     binding: ResturantBinding()),
-    // GetPage(
-    //     name: Routes.resturantScreen,
-    //     page: () => ResturantScreen(),
-    //     binding: ResturantBageBinding()),
-    // GetPage(
-    //   name: Routes.myOrdersScreen,
-    //   page: () => MyOrdersScreen(),
-    // ),
-    // GetPage(
-    //   name: Routes.foodScreen,
-    //   page: () => FoodScreen(),
-    // ),
-
     GetPage(
         name: Routes.detailsRequestScreen,
         page: () => DetailsRequestScreen(),
         bindings: [
           DetailsRequestBindings(),
         ]),
-    // GetPage(
-    //   name: Routes.checkoutScreen,
-    //   page: () => CheckoutScreen(),
-    //   binding: CheckoutBindings()
-    // ),
-    // GetPage(
-    //     name: Routes.changeAddressScreen,
-    //     page: () => ChangeAddressScreen(),
-    //     binding: AddressBindings()),
-    // GetPage(
-    //     name: Routes.allReviewScreen,
-    //     page: () => AllReviewScreen(),
-    //     binding: RreviewProductBinding()),
-
-    // GetPage(
-    //   name: Routes.writeReviewScreen,
-    //   page: () => WriteReviewScreen(),
-    // ),
-    // GetPage(
-    //     name: Routes.allFoodScreen,
-    //     page: () => AllFoodScreen(),
-    //     binding: FodeBindings()),
     GetPage(
       name: Routes.addRequestScreen,
       page: () => AddRequestScreen(),
@@ -154,22 +73,16 @@ class AppRoutes {
       name: Routes.notificatonScreen,
       page: () => AddRequestScreen(),
     ),
-    // GetPage(
-    //   name: Routes.updatePassword,
-    //   page: () => UpdatePassword(),
-    // ),
   ];
 }
 
 class Routes {
   static const onBoardingScreen = '/onBoardingScreen';
-
   static const loginScreen = '/loginScreen';
   static const registerScreen = '/registerScreen';
   static const forgotPasswordScreen = '/forgotPasswordScreen';
   static const sendOTPScreen = '/sendOTPScreen';
   static const newPwScreen = '/newPwScreen';
-
   static const mainScreen = '/mainScreen';
   static const chatScreen = '/chatScreen';
   static const splashScreen = '/splashScreen';
@@ -182,24 +95,7 @@ class Routes {
   static const restPasswordScreen = '/restPasswordScreen';
   static const notificatonScreen = '/notificatonScreen';
   static const categoryScreen = '/categoryScreen';
-  static const resturantScreen = '/resturantScreen';
-  static const myOrdersScreen = '/myOrdersScreen';
-  static const foodScreen = '/foodScreen';
-  static const productDetailsScreen = '/productDetailsScreen';
-
   static const checkoutScreen = '/checkoutScreen';
-
-  static const changeAddressScreen = '/changeAddressScreen';
-
-  static const allReviewScreen = '/allReviewScreen';
-  static const writeReviewScreen = '/writeReviewScreen';
-  static const allFoodScreen = '/allFoodScreen';
-
   static const addRequestScreen = '/addRequestScreen';
-
   static const updatePassword = '/changePassword';
-
-  // ForgotPasswordCodeScreen
-
-  // OnBoarding
 }
