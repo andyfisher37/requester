@@ -21,7 +21,7 @@ class AppBarItem extends StatelessWidget {
               //Get.toNamed(Routes.searchScreen);
             }),
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 15.h),
+              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
               child: HomeTextField(),
             ),
           ),

@@ -2,33 +2,69 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Request {
-  String? id; // id заявки
-  late String userID; // id пользователя
-  late String title; // краткое название заявки
-  late String category; // категория (обычная, срочная)
-  late bool isExecute; // Статус исполнения заявки
-  late String description; // полное описание заявки
-  late double summa; // сумма
-  late double stavka; // ставка
-  late int inn; // ИНН владельца
-  late bool isNDS; // с НДС или без
-  late DateTime paydate; // дата платежа
-  late DateTime returndate; // дата возврата
+  final String? id; // id заявки
+  final String? userID; // id пользователя
+  final String? title; // краткое название заявки
+  final String? category; // категория (обычная, срочная)
+  bool? isExecute; // Статус исполнения заявки
+  final String? description; // полное описание заявки
+  final double? summa; // сумма
+  final double? stavka; // ставка
+  final int? inn; // ИНН владельца
+  final bool? isNDS; // с НДС или без
+  final DateTime? paydate; // дата платежа
+  final DateTime? returndate; // дата возврата
 
   Request({
-    required this.id,
-    required this.userID,
-    required this.title,
-    required this.category,
-    required this.isExecute,
-    required this.description,
-    required this.summa,
-    required this.stavka,
-    required this.inn,
-    required this.isNDS,
-    required this.paydate,
-    required this.returndate,
+    this.id,
+    this.userID,
+    this.title,
+    this.category,
+    this.isExecute,
+    this.description,
+    this.summa,
+    this.stavka,
+    this.inn,
+    this.isNDS,
+    this.paydate,
+    this.returndate,
   });
+
+  factory Request.fromFirestore(DocumentSnapshot<Map<String, dynamic>> snapshot,
+      SnapshotOptions? options) {
+    final data = snapshot.data();
+    return Request(
+      id: data?['id'],
+      userID: data?['userID'],
+      title: data?['title'],
+      category: data?['category'],
+      isExecute: data?['isExecute'],
+      description: data?['description'],
+      summa: double.parse(data!['summa'].toString()),
+      stavka: data?['stavka'],
+      inn: data?['inn'],
+      isNDS: data?['isNDS'],
+      paydate: data?['paydate'].toDate(),
+      returndate: data?['returndate'].toDate(),
+    );
+  }
+
+  Map<String, dynamic> toFirestore() {
+    return {
+      if (id != null) "id": id,
+      if (userID != null) "userID": userID,
+      if (title != null) "title": title,
+      if (category != null) "category": category,
+      if (isExecute != null) "isExecute": isExecute,
+      if (description != null) "description": description,
+      if (summa != null) "summa": summa,
+      if (stavka != null) "stavka": stavka,
+      if (inn != null) "inn": inn,
+      if (isNDS != null) "isNDS": isNDS,
+      if (paydate != null) "paydate": paydate,
+      if (returndate != null) "returndate": returndate,
+    };
+  }
 
   factory Request.fromJson(String str) => Request.fromMap(json.decode(str));
 

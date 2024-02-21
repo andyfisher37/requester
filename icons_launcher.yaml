@@ -4,11 +4,10 @@ icons_launcher:
     android:
       enable: true
       image_path: 'assets/icons/AppIcons/android/mipmap-xxxhdpi/ic_launcher.png'
-      # adaptive_background_color: '#ffffff'
-      adaptive_background_image: 'assets/icons/AppIcons/android/mipmap-xxxhdpi/ic_launcher.png'
+      adaptive_background_color: '#ffffff'
+      #adaptive_background_image: 'assets/icons/AppIcons/android/mipmap-xxxhdpi/ic_launcher.png'
       adaptive_foreground_image: 'assets/icons/AppIcons/android/mipmap-xxxhdpi/ic_launcher.png'
       adaptive_round_image: 'assets/icons/AppIcons/android/mipmap-xxxhdpi/ic_launcher.png'
-      adaptive_monochrome_image: 'assets/icons/AppIcons/android/mipmap-xxxhdpi/ic_launcher.png'
     ios:
       enable: true
-      image_path: 'assets/icons/AppIcons/Assets.xcassets/AppIcon.appiconset/1024.png'
+      image_path: 'assets/icons/AppIcons/appstore.png'

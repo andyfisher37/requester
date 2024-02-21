@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 
 import '../controllers/archive_controller.dart';
 
-class SettingsBindings extends Bindings {
+class ArchiveBindings extends Bindings {
   @override
   void dependencies() {
     Get.put(ArchiveController());

@@ -25,6 +25,7 @@ const Color headline2Color = Color.fromRGBO(144, 152, 177, 1);
 const Color filterTitlesColor = Color.fromRGBO(28, 39, 96, 1);
 const Color dateColor = Color.fromRGBO(39, 174, 96, 1);
 
+// Обычная тема приложения
 class ThemesApp {
   static final light = ThemeData.light().copyWith(
     scaffoldBackgroundColor: Colors.white,
@@ -63,11 +64,11 @@ class ThemesApp {
     hintColor: authTextFromFieldHintTextColor,
   );
 
+// Темная тема...
   static final dark = ThemeData.dark().copyWith(
     scaffoldBackgroundColor: const Color(0xFF18172B),
     primaryColor: darkGreyClr,
-        secondaryHeaderColor:const Color(0xFF27273c),
-
+    secondaryHeaderColor: const Color(0xFF27273c),
     textTheme: TextTheme(
       headline1: const TextStyle(
         color: Colors.white,
@@ -92,7 +93,6 @@ class ThemesApp {
       centerTitle: true,
       iconTheme: IconThemeData(color: Colors.white),
     ),
-
     cardColor: const Color(0xFF27273c),
     elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
@@ -100,7 +100,6 @@ class ThemesApp {
     bottomNavigationBarTheme:
         const BottomNavigationBarThemeData(backgroundColor: Color(0xFF1F1F30)),
     iconTheme: const IconThemeData(color: Colors.white),
-
     hintColor: Colors.white,
   );
 }

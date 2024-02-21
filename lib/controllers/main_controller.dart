@@ -16,8 +16,8 @@ class MainController extends GetxController {
       
   var tabs = [
     HomeScreen(),
-    ChatScreen(), // CartScreen(),
-    ArchiveScreen(), // FavoritesScreen(),
+    ChatScreen(),
+    ArchiveScreen(),
     SettingsScreen(),
   ].obs;
 

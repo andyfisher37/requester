@@ -8,21 +8,18 @@ import 'package:requester/controllers/home_controllers.dart';
 //import 'package:requester/custom/todoCard.dart';
 import 'package:requester/models/request.dart';
 import 'package:requester/screens/request/add_request_screen.dart';
-import 'package:requester/pages/signin.dart';
+import 'package:requester/screens/auth/login_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 //import 'package:requester/pages/viewdata.dart';
-import 'package:requester/pages/viewReqDataPage.dart';
+//import 'package:requester/pages/viewReqDataPage.tmp';
 import 'package:requester/routes/routes.dart';
-import 'package:requester/service/google_auth.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:requester/services/google_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:requester/controllers/request_controller.dart';
 import 'package:requester/screens/request/request_view.dart';
 import 'package:requester/widgets/appbarItem.dart';
-import 'package:requester/widgets/homeRequestCard.dart';
+import 'package:requester/screens/home/homeRequestCard.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -149,7 +146,7 @@ class _HomeScreenState extends State<HomeScreen> {
               separatorBuilder: (_, __) => Divider(),
               itemCount: requestController.requestList.length),
         ), */
-        backgroundColor: Colors.black87,
+        //backgroundColor: getThemeDataFromBox(),
 
         /* appBar: AppBar(
           // leading: SvgPicture.asset(
@@ -379,15 +376,36 @@ class _HomeScreenState extends State<HomeScreen> {
           itemCount: ctrl.requestList.length,
           itemBuilder: (context, index) {
             return Dismissible(
+              confirmDismiss: (DismissDirection direction) async {
+                return await showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text("Подтверждение"),
+                      content: const Text("Удалить заявку?"),
+                      actions: <Widget>[
+                        OutlinedButton(
+                            onPressed: () => Navigator.of(context).pop(true),
+                            child: const Text("Да")),
+                        OutlinedButton(
+                          onPressed: () => Navigator.of(context).pop(false),
+                          child: const Text("Нет"),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
               key: UniqueKey(),
-              onDismissed: (_) {
+              direction: DismissDirection.endToStart,
+              onDismissed: (direction) {
                 Request? removed = ctrl.requestList[index];
                 // Добавляем в архив
                 arch.addRequest(removed);
                 // Удаляем заявку...
                 ctrl.deleteRequestID(ctrl.requestList[index].id!);
                 Get.snackbar('ВНИМАНИЕ', 'Заявка "${removed.title}" удалена.',
-                    colorText: Colors.white,
+                    colorText: Theme.of(context).textTheme.headline1!.color,
                     snackPosition: SnackPosition.BOTTOM,
                     duration: Duration(seconds: 8),
                     mainButton: TextButton(
@@ -408,12 +426,11 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               child: GestureDetector(
                 onTap: () {
-                  // Get.toNamed(Routes.requestScreen, arguments: [
-                  //   {
-                  //     "id": homeController.requestList[index].id.toString(),
-                  //   }
-                  //]
-                  //);
+                  Get.toNamed(Routes.detailsRequestScreen, arguments: [
+                    {
+                      "id": ctrl.requestList[index].id.toString(),
+                    }
+                  ]);
                 },
                 child: HomeRequestCard(
                   requestItem: ctrl.requestList[index],
@@ -426,26 +443,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
-
-/*TodoCard(
-                title: "Wake Up",
-                check: true,
-                time: "11 PM",
-                iconBgColor: Colors.white,
-                iconColor: Colors.black,
-                iconData: Icons.alarm,
-              );*/
-
-/*IconButton(
-          icon: Icon(
-            Icons.logout,
-          ),
-          onPressed: () async {
-            authClass.logOut(context);
-            Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (builder) => SignInPage()),
-                (route) => false);
-          },
-        ),*/

@@ -90,6 +90,20 @@ class RequestController extends GetxController {
         .toList();
   }
 
+  // Выбор по ID
+  static Future<Request?> getByID(String id) async {
+    final ref = FirebaseFirestore.instance
+        .collection("Request")
+        .where("id", isEqualTo: id)
+        .withConverter(
+            fromFirestore: Request.fromFirestore,
+            toFirestore: (Request req, _) => req.toFirestore());
+
+    final docSnap = await ref.get();
+    final rq = docSnap.docs[0].data();
+    return rq;
+  }
+
   // Выборка только активных (на исполнении)
   static Future<List<Request>> getAllEntriesFilteredByPrice() async {
     return (await FirebaseFirestore.instance
